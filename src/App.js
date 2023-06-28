@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Typography, Container } from "@mui/material";
 import EditableDataTable from "./EditableDataTable";
 import GanttChart from "./GanttChart";
+import GanttRenderer from "./GanttRenderer";
 function App() {
   const [data, setData] = useState([
     {
@@ -274,10 +275,85 @@ function App() {
     },
   ]);
   const [filteredData, setFilteredData] = useState(data);
+  const [testData, setTestData] = useState([
+    {
+      "OccupiedArea": "Levels 1-5",
+      "rows": [
+        {
+          "Program": "LMXT",
+          "Project": "Design Work Space",
+          "TypeOfWork": "LRP",
+          "OptionName": "A",
+          "Building": "L-10",
+          "IdentifierKey": "LMXTDesign Work SpaceLRPAL-10Levels 1-5",
+          "Flag": "Primary",
+          "OptionDetails": "Based on LMXT Team Feedback",
+          "DateStart": 2023,
+          "DateEnd": 2037,
+          "Maturity": "Capital Review",
+          "CapitalExpenditure": "$8,269,000",
+          "DRDBKey": [
+            "R25769",
+            "R25777",
+            "R25780",
+            "R25784",
+            "R25785",
+            "R25786"
+          ],
+          "SME": "Adrian Gibson",
+          "Notes":
+            "LMXT Building interior design for Engineering, contract award 2025",
+          "SpaceCharacterization": "Design"
+        }
+      ]
+    },
+    {
+      "OccupiedArea": "Bay 2",
+      "rows": [
+        {
+          "Program": "F-22",
+          "Project": "AFF",
+          "TypeOfWork": "Potential",
+          "OptionName": "A",
+          "Building": "L-64",
+          IdentifierKey: 'F-22AFFPotentialAL-64Bay 2',
+          Flag: 'Primary',
+          OptionDetails: 'Based on 2022 Marietta WIP',
+          DateStart: 2028,
+          DateEnd: 2030,
+          Maturity: 'Capital Review',
+          CapitalExpenditure: '$8,400,000',
+          DRDBKey: ['R24036'],
+          SME: 'Patel Pathik J',
+          Notes: 'Maintain F-22 rate of turnaround for sustainment',
+          SpaceCharacterization: 'Sustainment'
+        },
+        {
+           Program: 'F-22',
+           Project: 'AFF',
+           TypeOfWork: 'LRP',
+           OptionName: 'A',
+           Building: 'L-64',
+           IdentifierKey: 'F-22AFFLRPAL-64Bay 2',
+           Flag: 'Primary',
+           OptionDetails: 'Based on 2022 Marietta WIP',
+           DateStart: 2026,
+           DateEnd: 2028,
+           Maturity: 'Capital Review',
+           CapitalExpenditure: '$8,400,000',
+           DRDBKey: ['R24036'],
+           SME: 'Patel Pathik J',
+           Notes: 'Maintain F-22 rate of turnaround for sustainment',
+           SpaceCharacterization: 'Sustainment'
+        }
+      ]
+    }
+  ])
   return (
     <div>
       <Container>
         <GanttChart data={filteredData}/>
+        <GanttRenderer filteredData={testData}/>
         <EditableDataTable data={data} setData={setData} setFilteredData={setFilteredData}/>
       </Container>
     </div>
