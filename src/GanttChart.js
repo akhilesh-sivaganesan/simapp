@@ -46,10 +46,10 @@ const GanttChart = ({ data }) => {
   }, [data]);
 
   const options = {
-    height: 400,
+    height: "800",
   };
 
-  return <Chart chartType="Gantt" data={chartData} legendToggle />;
+  return <Chart chartType="Gantt" data={chartData} legendToggle options={options}/>;
 };
 
 export default GanttChart;
