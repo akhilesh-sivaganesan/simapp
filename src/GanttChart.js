@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Chart } from "react-google-charts";
 
-const GanttChart = ({ data }) => {
+const GanttChart = ({ name, data }) => {
   const [chartData, setChartData] = useState([
     [
       { type: "string", label: "Task ID" },
@@ -27,6 +27,7 @@ const GanttChart = ({ data }) => {
       [
         { type: "string", label: "Task ID" },
         { type: "string", label: "Task Name" },
+        { type: "string", label: "Resource" },
         { type: "date", label: "Start Date" },
         { type: "date", label: "End Date" },
         { type: "number", label: "Duration" },
@@ -35,21 +36,27 @@ const GanttChart = ({ data }) => {
       ],
       ...data.map((item) => [
         item.IdentifierKey,
-        item.Project,
+        `${item.Program + ': ' + item.Project}`,
+        item.Program,
         new Date(item.DateStart, 0, 1),
         new Date(item.DateEnd, 11, 31),
         null,
-        100,
+        80,
         null,
       ]),
     ]);
   }, [data]);
 
   const options = {
-    height: "800",
-  };
+    height: `${chartData.length * 50}`
+  }
 
-  return <Chart chartType="Gantt" data={chartData} legendToggle options={options}/>;
+  return (
+    <div className="relative">
+      <p className="absolute top-1 right-1">{name}</p>
+      <Chart chartType="Gantt" data={chartData} legendToggle width='100%' options={options}/>
+    </div>
+  );
 };
 
 export default GanttChart;
