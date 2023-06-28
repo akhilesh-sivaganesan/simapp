@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Typography, Container } from "@mui/material";
+import { Typography, Container, Box } from "@mui/material";
 import EditableDataTable from "./EditableDataTable";
 import GanttChart from "./GanttChart";
 import GanttRenderer from "./GanttRenderer";
@@ -354,6 +354,7 @@ function App() {
       <Container>
         <GanttChart data={filteredData}/>
         <GanttRenderer filteredData={testData}/>
+        <Box padding="20px"></Box>
         <EditableDataTable data={data} setData={setData} setFilteredData={setFilteredData}/>
       </Container>
     </div>

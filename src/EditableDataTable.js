@@ -13,6 +13,7 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
           ...getCommonEditTextFieldProps(cell),
         }),
         size: 150,
+        filterVariant: 'multi-select',
       },
       {
         accessorKey: "Project",
@@ -20,7 +21,7 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
-        size: 150, 
+        size: 150,
       },
       {
         accessorKey: "TypeOfWork",
@@ -180,6 +181,7 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
       newData[row.index] = values;
       //send/receive api updates here, then refetch or update local table data for re-render
       setNewData([...newData]);
+      setData([...newData])
       setFilteredData([...newData])
       exitEditingMode(); //required to exit editing mode and close modal
     }
@@ -198,6 +200,7 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
   const resetData = () => {
     setFilteredData(data)
     setNewData(data)
+    window.location.reload();
   }
 
   //optionally, you can manage the row selection state yourself
@@ -221,6 +224,7 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
       enableRowSelection
       enableRowActions
       enableEditing
+      enableClickToCopy 
       editingMode="modal" //default
       initialState={{ density: 'compact' }}
       onEditingRowSave={handleSaveRowEdits}
@@ -233,7 +237,7 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
         >
           <Button
             color="primary"
-            onClick={() => resetData}
+            onClick={resetData}
             startIcon={<DownloadForOfflineIcon />}
             variant="contained"
           >
@@ -252,6 +256,14 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
           </Button>
         </Box>
       )}
+      muiTableBodyProps={{
+        sx: {
+          //stripe the rows, make odd rows a darker color
+          '& tr:nth-of-type(odd)': {
+            backgroundColor: '#fafafa',
+          },
+        },
+      }}
     />
   );
 }
