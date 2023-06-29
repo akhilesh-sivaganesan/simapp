@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Typography, Container, Box } from "@mui/material";
 import EditableDataTable from "./EditableDataTable";
 import GanttChart from "./GanttChart";
@@ -198,7 +198,7 @@ function App() {
     },
     {
       Program: "P209",
-      Project: "General Assemby",
+      Project: "General Assembly",
       TypeOfWork: "LRP",
       OptionName: "B",
       Building: "L-10",
@@ -277,85 +277,114 @@ function App() {
   const [filteredData, setFilteredData] = useState(data);
   const [testData, setTestData] = useState([
     {
-      "OccupiedArea": "Levels 1-5",
-      "rows": [
+      OccupiedArea: "Levels 1-5",
+      rows: [
         {
-          "Program": "LMXT",
-          "Project": "Design Work Space",
-          "TypeOfWork": "LRP",
-          "OptionName": "A",
-          "Building": "L-10",
-          "IdentifierKey": "LMXTDesign Work SpaceLRPAL-10Levels 1-5",
-          "Flag": "Primary",
-          "OptionDetails": "Based on LMXT Team Feedback",
-          "DateStart": 2023,
-          "DateEnd": 2037,
-          "Maturity": "Capital Review",
-          "CapitalExpenditure": "$8,269,000",
-          "DRDBKey": [
-            "R25769",
-            "R25777",
-            "R25780",
-            "R25784",
-            "R25785",
-            "R25786"
-          ],
-          "SME": "Adrian Gibson",
-          "Notes":
+          Program: "LMXT",
+          Project: "Design Work Space",
+          TypeOfWork: "LRP",
+          OptionName: "A",
+          Building: "L-10",
+          IdentifierKey: "LMXTDesign Work SpaceLRPAL-10Levels 1-5",
+          Flag: "Primary",
+          OptionDetails: "Based on LMXT Team Feedback",
+          DateStart: 2023,
+          DateEnd: 2037,
+          Maturity: "Capital Review",
+          CapitalExpenditure: "$8,269,000",
+          DRDBKey: ["R25769", "R25777", "R25780", "R25784", "R25785", "R25786"],
+          SME: "Adrian Gibson",
+          Notes:
             "LMXT Building interior design for Engineering, contract award 2025",
-          "SpaceCharacterization": "Design"
-        }
-      ]
+          SpaceCharacterization: "Design",
+        },
+      ],
     },
     {
-      "OccupiedArea": "Bay 2",
-      "rows": [
+      OccupiedArea: "Bay 2",
+      rows: [
         {
-          "Program": "F-22",
-          "Project": "AFF",
-          "TypeOfWork": "Potential",
-          "OptionName": "A",
-          "Building": "L-64",
-          IdentifierKey: 'F-22AFFPotentialAL-64Bay 2',
-          Flag: 'Primary',
-          OptionDetails: 'Based on 2022 Marietta WIP',
+          Program: "F-22",
+          Project: "AFF",
+          TypeOfWork: "Potential",
+          OptionName: "A",
+          Building: "L-64",
+          IdentifierKey: "F-22AFFPotentialAL-64Bay 2",
+          Flag: "Primary",
+          OptionDetails: "Based on 2022 Marietta WIP",
           DateStart: 2028,
           DateEnd: 2030,
-          Maturity: 'Capital Review',
-          CapitalExpenditure: '$8,400,000',
-          DRDBKey: ['R24036'],
-          SME: 'Patel Pathik J',
-          Notes: 'Maintain F-22 rate of turnaround for sustainment',
-          SpaceCharacterization: 'Sustainment'
+          Maturity: "Capital Review",
+          CapitalExpenditure: "$8,400,000",
+          DRDBKey: ["R24036"],
+          SME: "Patel Pathik J",
+          Notes: "Maintain F-22 rate of turnaround for sustainment",
+          SpaceCharacterization: "Sustainment",
         },
         {
-           Program: 'F-22',
-           Project: 'AFF',
-           TypeOfWork: 'LRP',
-           OptionName: 'A',
-           Building: 'L-64',
-           IdentifierKey: 'F-22AFFLRPAL-64Bay 2',
-           Flag: 'Primary',
-           OptionDetails: 'Based on 2022 Marietta WIP',
-           DateStart: 2026,
-           DateEnd: 2028,
-           Maturity: 'Capital Review',
-           CapitalExpenditure: '$8,400,000',
-           DRDBKey: ['R24036'],
-           SME: 'Patel Pathik J',
-           Notes: 'Maintain F-22 rate of turnaround for sustainment',
-           SpaceCharacterization: 'Sustainment'
-        }
-      ]
-    }
-  ])
+          Program: "F-22",
+          Project: "AFF",
+          TypeOfWork: "LRP",
+          OptionName: "A",
+          Building: "L-64",
+          IdentifierKey: "F-22AFFLRPAL-64Bay 2",
+          Flag: "Primary",
+          OptionDetails: "Based on 2022 Marietta WIP",
+          DateStart: 2026,
+          DateEnd: 2028,
+          Maturity: "Capital Review",
+          CapitalExpenditure: "$8,400,000",
+          DRDBKey: ["R24036"],
+          SME: "Patel Pathik J",
+          Notes: "Maintain F-22 rate of turnaround for sustainment",
+          SpaceCharacterization: "Sustainment",
+        },
+      ],
+    },
+  ]);
+
+  const convertData = (data) => {
+    // Group the data by the OccupiedArea field
+    const groupedData = data.reduce((acc, row) => {
+      // Check if the current OccupiedArea is already in the accumulator
+      if (!acc[row.OccupiedArea]) {
+        // If not, create a new entry for it
+        acc[row.OccupiedArea] = [];
+      }
+      // Add the current row to the corresponding group
+      acc[row.OccupiedArea].push(row);
+      return acc;
+    }, {});
+
+    // Convert the grouped data into an array of new JSON objects
+    const convertedData = Object.entries(groupedData).map(
+      ([occupiedArea, rows]) => ({
+        OccupiedArea: occupiedArea,
+        rows: rows,
+      })
+    );
+
+    return convertedData;
+  };
+
+  // Convert the data into the desired format
+  const [convertedData, setConvertedData] = useState(convertData(filteredData));
+  useEffect(() => {
+    // Convert the filteredData whenever it changes
+    setConvertedData(convertData(filteredData));
+  }, [filteredData]);
+
   return (
     <div>
       <Container>
-        <GanttChart data={filteredData}/>
-        <GanttRenderer filteredData={testData}/>
+        {/* <GanttChart data={filteredData} /> */}
+        <GanttRenderer filteredData={convertedData} />
         <Box padding="20px"></Box>
-        <EditableDataTable data={data} setData={setData} setFilteredData={setFilteredData}/>
+        <EditableDataTable
+          data={data}
+          setData={setData}
+          setFilteredData={setFilteredData}
+        />
       </Container>
     </div>
   );
