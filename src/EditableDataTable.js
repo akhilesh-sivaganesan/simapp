@@ -22,6 +22,7 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
           ...getCommonEditTextFieldProps(cell),
         }),
         size: 150,
+        filterVariant: 'multi-select',
       },
       {
         accessorKey: "TypeOfWork",
@@ -30,6 +31,7 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
           ...getCommonEditTextFieldProps(cell),
         }),
         size: 170, 
+        filterVariant: 'multi-select',
       },
       {
         accessorKey: "OptionName",
@@ -38,6 +40,7 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
           ...getCommonEditTextFieldProps(cell),
         }),
         size: 170,
+        filterVariant: 'multi-select',
       },
       {
         accessorKey: "Building",
@@ -46,6 +49,7 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
           ...getCommonEditTextFieldProps(cell),
         }),
         size: 140,
+        filterVariant: 'multi-select',
       },
       {
         accessorKey: "OccupiedArea",
@@ -54,6 +58,7 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
           ...getCommonEditTextFieldProps(cell),
         }),
         size: 180,
+        filterVariant: 'multi-select',
       },
       {
         accessorKey: "IdentifierKey",
@@ -69,6 +74,7 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
           ...getCommonEditTextFieldProps(cell),
         }),
         size: 100,
+        filterVariant: 'multi-select',
       },
       {
         accessorKey: "OptionDetails",
@@ -123,6 +129,7 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
           ...getCommonEditTextFieldProps(cell),
         }),
         size: 150,
+        filterVariant: 'multi-select',
       },
       {
         accessorKey: "Notes",
@@ -138,6 +145,7 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
           ...getCommonEditTextFieldProps(cell),
         }),
         size: 250,
+        filterVariant: 'multi-select',
       },
     ],
     []
@@ -216,8 +224,8 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
       columns={columns}
       data={data}
       defaultColumn={{
-        minSize: 20, //allow columns to get smaller than default
-        maxSize: 900, //allow columns to get larger than default
+        minSize: 20, 
+        maxSize: 900, 
       }}
       enableColumnResizing
       enableColumnOrdering
@@ -226,7 +234,8 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
       enableEditing
       enableClickToCopy 
       editingMode="modal" //default
-      initialState={{ density: 'compact' }}
+      enableFacetedValues
+      initialState={{ density: 'compact', showColumnFilters: true }}
       onEditingRowSave={handleSaveRowEdits}
       onEditingRowCancel={handleCancelRowEdits}
       onRowSelectionChange={setRowSelection} //connect internal row selection state to your own
@@ -242,6 +251,17 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
             variant="contained"
           >
             Reset Graphs
+          </Button>
+          <Button
+            disabled={table.getPrePaginationRowModel().rows.length === 0}
+            //render all rows, including from the next page, (still respects filtering and sorting)
+            onClick={() =>
+              handleExportRows(table.getPrePaginationRowModel().rows)
+            }
+            startIcon={<DownloadForOfflineIcon />}
+            variant="contained"
+          >
+            Render Filtered Rows
           </Button>
           <Button
             disabled={
