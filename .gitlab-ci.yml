@@ -3,7 +3,7 @@ variables:
   HTTPS_PROXY: http://proxy-zsgov.external.lmco.com:80/
   REGISTRY_URL: lmregistry.us.lmco.com
   PROJECT_NAME: lmc.aero.prowat
-  IMAGE_NAME : $PROJECT_NAME/SUMIT_app
+  IMAGE_NAME : $PROJECT_NAME/sumit_app
   IMAGE_TAG: latest
 
 stages:
