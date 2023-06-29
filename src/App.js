@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Typography, Container, Box } from "@mui/material";
 import EditableDataTable from "./EditableDataTable";
-import GanttChart from "./TimelineChart";
+import RockPile from "./RockPile";
 import GanttRenderer from "./GanttRenderer";
 
 function App() {
@@ -276,73 +276,6 @@ function App() {
     },
   ]);
   const [filteredData, setFilteredData] = useState(data);
-  const [testData, setTestData] = useState([
-    {
-      OccupiedArea: "Levels 1-5",
-      rows: [
-        {
-          Program: "LMXT",
-          Project: "Design Work Space",
-          TypeOfWork: "LRP",
-          OptionName: "A",
-          Building: "L-10",
-          IdentifierKey: "LMXTDesign Work SpaceLRPAL-10Levels 1-5",
-          Flag: "Primary",
-          OptionDetails: "Based on LMXT Team Feedback",
-          DateStart: 2023,
-          DateEnd: 2037,
-          Maturity: "Capital Review",
-          CapitalExpenditure: "$8,269,000",
-          DRDBKey: ["R25769", "R25777", "R25780", "R25784", "R25785", "R25786"],
-          SME: "Adrian Gibson",
-          Notes:
-            "LMXT Building interior design for Engineering, contract award 2025",
-          SpaceCharacterization: "Design",
-        },
-      ],
-    },
-    {
-      OccupiedArea: "Bay 2",
-      rows: [
-        {
-          Program: "F-22",
-          Project: "AFF",
-          TypeOfWork: "Potential",
-          OptionName: "A",
-          Building: "L-64",
-          IdentifierKey: "F-22AFFPotentialAL-64Bay 2",
-          Flag: "Primary",
-          OptionDetails: "Based on 2022 Marietta WIP",
-          DateStart: 2028,
-          DateEnd: 2030,
-          Maturity: "Capital Review",
-          CapitalExpenditure: "$8,400,000",
-          DRDBKey: ["R24036"],
-          SME: "Patel Pathik J",
-          Notes: "Maintain F-22 rate of turnaround for sustainment",
-          SpaceCharacterization: "Sustainment",
-        },
-        {
-          Program: "F-22",
-          Project: "AFF",
-          TypeOfWork: "LRP",
-          OptionName: "A",
-          Building: "L-64",
-          IdentifierKey: "F-22AFFLRPAL-64Bay 2",
-          Flag: "Primary",
-          OptionDetails: "Based on 2022 Marietta WIP",
-          DateStart: 2026,
-          DateEnd: 2028,
-          Maturity: "Capital Review",
-          CapitalExpenditure: "$8,400,000",
-          DRDBKey: ["R24036"],
-          SME: "Patel Pathik J",
-          Notes: "Maintain F-22 rate of turnaround for sustainment",
-          SpaceCharacterization: "Sustainment",
-        },
-      ],
-    },
-  ]);
 
   const convertData = (data) => {
     // Group the data by the OccupiedArea field
@@ -367,18 +300,72 @@ function App() {
 
     return convertedData;
   };
+  const convertDataForChart = (filteredData) => {
+    // Create the header row
+    const headerRow = ["Year"];
+    const dataMap = {};
+  
+    filteredData.forEach((row) => {
+      const startYear = row.DateStart;
+      const endYear = row.DateEnd;
+      const yearsInDevelopment = endYear - startYear + 1;
+  
+      // Get the name of the row
+      const name = `${row.Program} ${row.Project} ${row.TypeOfWork} ${row.OptionName}`;
+  
+      // Check if the name is already in the header row
+      if (!headerRow.includes(name)) {
+        // If not, add it to the header row
+        headerRow.push(name);
+      }
 
+      const capitalExpenditure = parseInt(row.CapitalExpenditure.replace(/[^0-9]/g, ""));
+      const capitalExpenditurePerYear = capitalExpenditure / yearsInDevelopment;
+  
+      // Add the capital expenditure to the dataMap for each year
+      for (let year = startYear; year <= endYear; year++) {
+        // Check if the year is already in the dataMap
+        if (!dataMap[year]) {
+          // If not, create a new entry for it
+          dataMap[year] = {};
+        }
+        dataMap[year][name] = (dataMap[year][name] || 0) + capitalExpenditurePerYear;
+      }
+    });
+  
+    // Convert the dataMap into an array of rows
+    const rows = Object.entries(dataMap).map(([year, rowData]) => {
+      const row = [year];
+  
+      // Iterate over the header row to add the data for each column in order
+      headerRow.slice(1).forEach((name) => {
+        const value = rowData[name] || 0;
+        row.push(value);
+      });
+      return row;
+    });
+    // Sort the rows by year
+    rows.sort((a, b) => a[0] - b[0]);
+  
+    // Add the header row to the beginning of the rows array
+    rows.unshift(headerRow);
+    return rows;
+  };
+  
+  
   // Convert the data into the desired format
   const [convertedData, setConvertedData] = useState(convertData(filteredData));
+  const [convertedChartData, setConvertedChartData] = useState(convertDataForChart(filteredData));
   useEffect(() => {
     // Convert the filteredData whenever it changes
     setConvertedData(convertData(filteredData));
+    setConvertedChartData(convertDataForChart(filteredData));
   }, [filteredData]);
 
   return (
     <div className="">
-      <Container className="p-5">
-        {/* <GanttChart data={filteredData} /> */}
+      <Container className="">
+        <RockPile data={convertedChartData}/>
         <GanttRenderer filteredData={convertedData} />
         <EditableDataTable
           data={data}

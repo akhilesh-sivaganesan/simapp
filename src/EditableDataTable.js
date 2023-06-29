@@ -12,7 +12,8 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
-        size: 150,
+        muiTableHeadCellFilterTextFieldProps: { placeholder: 'Program Filter' },
+        size: 170,
         filterVariant: 'multi-select',
       },
       {
@@ -21,8 +22,9 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
-        size: 150,
+        size: 170,
         filterVariant: 'multi-select',
+        muiTableHeadCellFilterTextFieldProps: { placeholder: 'Project Filter' },
       },
       {
         accessorKey: "TypeOfWork",
@@ -30,8 +32,9 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
-        size: 170, 
+        size: 173, 
         filterVariant: 'multi-select',
+        muiTableHeadCellFilterTextFieldProps: { placeholder: 'Type of Work' },
       },
       {
         accessorKey: "OptionName",
@@ -39,8 +42,9 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
-        size: 170,
+        size: 150,
         filterVariant: 'multi-select',
+        muiTableHeadCellFilterTextFieldProps: { placeholder: 'Option Filter' },
       },
       {
         accessorKey: "Building",
@@ -48,8 +52,9 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
-        size: 140,
+        size: 160,
         filterVariant: 'multi-select',
+        muiTableHeadCellFilterTextFieldProps: { placeholder: 'Building Filter' },
       },
       {
         accessorKey: "OccupiedArea",
@@ -59,6 +64,7 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
         }),
         size: 180,
         filterVariant: 'multi-select',
+        muiTableHeadCellFilterTextFieldProps: { placeholder: 'Area Filter' },
       },
       {
         accessorKey: "IdentifierKey",
@@ -66,6 +72,7 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
+        muiTableHeadCellFilterTextFieldProps: { placeholder: 'Key Filter' },
       },
       {
         accessorKey: "Flag",
@@ -73,8 +80,9 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
-        size: 100,
+        size: 120,
         filterVariant: 'multi-select',
+        muiTableHeadCellFilterTextFieldProps: { placeholder: 'Flag Filter' },
       },
       {
         accessorKey: "OptionDetails",
@@ -82,6 +90,8 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
+        size: 200,
+        muiTableHeadCellFilterTextFieldProps: { placeholder: 'Option Filter' },
       },
       {
         accessorKey: "DateStart",
@@ -90,6 +100,7 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
           ...getCommonEditTextFieldProps(cell),
         }),
         size: 140,
+        muiTableHeadCellFilterTextFieldProps: { placeholder: 'Start Date' },
       },
       {
         accessorKey: "DateEnd",
@@ -98,6 +109,7 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
           ...getCommonEditTextFieldProps(cell),
         }),
         size: 130,
+        muiTableHeadCellFilterTextFieldProps: { placeholder: 'End Date' },
       },
       {
         accessorKey: "Maturity",
@@ -106,6 +118,7 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
           ...getCommonEditTextFieldProps(cell),
         }),
         size: 150,
+        muiTableHeadCellFilterTextFieldProps: { placeholder: 'Maturity' },
       },
       {
         accessorKey: "CapitalExpenditure",
@@ -114,6 +127,7 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
           ...getCommonEditTextFieldProps(cell),
         }),
         size: 200,
+        muiTableHeadCellFilterTextFieldProps: { placeholder: 'Capital Filter' },
       },
       {
         accessorKey: "DRDBKey",
@@ -121,6 +135,8 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
+        size: 160,
+        muiTableHeadCellFilterTextFieldProps: { placeholder: 'DRDB Filter' },
       },
       {
         accessorKey: "SME",
@@ -130,6 +146,7 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
         }),
         size: 150,
         filterVariant: 'multi-select',
+        muiTableHeadCellFilterTextFieldProps: { placeholder: 'SME Filter' },
       },
       {
         accessorKey: "Notes",
@@ -137,6 +154,7 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
+        muiTableHeadCellFilterTextFieldProps: { placeholder: 'Notes' },
       },
       {
         accessorKey: "SpaceCharacterization",
@@ -144,8 +162,9 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
-        size: 250,
+        size: 200,
         filterVariant: 'multi-select',
+        muiTableHeadCellFilterTextFieldProps: { placeholder: 'Space Filter' },
       },
     ],
     []
