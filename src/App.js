@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Typography, Container, Box } from "@mui/material";
 import EditableDataTable from "./EditableDataTable";
-import GanttChart from "./GanttChart";
+import GanttChart from "./TimelineChart";
 import GanttRenderer from "./GanttRenderer";
 
 function App() {
@@ -377,7 +377,7 @@ function App() {
 
   return (
     <div className="">
-      <Container className="">
+      <Container className="p-5">
         {/* <GanttChart data={filteredData} /> */}
         <GanttRenderer filteredData={convertedData} />
         <EditableDataTable
