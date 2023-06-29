@@ -363,10 +363,19 @@ function App() {
   }, [filteredData]);
 
   return (
-    <div className="">
+    <div className="flex flex-col space-y-3">
       <Container className="">
+        <Typography variant="h3" style={{fontWeight: 'bold'}} gutterBottom>
+          Rock Pile Chart
+        </Typography>
         <RockPile data={convertedChartData}/>
+        <Typography variant="h3" gutterBottom style={{fontWeight: 'bold'}}>
+          Gantt Chart
+        </Typography>
         <GanttRenderer filteredData={convertedData} />
+        <Typography variant="h3" style={{fontWeight: 'bold'}} gutterBottom>
+          Editable Data Table
+        </Typography>
         <EditableDataTable
           data={data}
           setData={setData}
