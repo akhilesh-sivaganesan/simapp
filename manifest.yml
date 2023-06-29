@@ -1,0 +1,8 @@
+applications:
+- name: SUMIT_app
+  docker:
+    image: lmregistry.us.lmco.com/lmc.aero.prowat/SUMIT_app
+  disk_quota: 4G
+  routes:
+    - route: SUMIT_app.apps.pgw2.us.lmco.com
+  timeout: 600
