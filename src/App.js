@@ -300,7 +300,6 @@ function App() {
 
     return convertedData;
   };
-
   const convertDataForChart = (filteredData) => {
     // Create the header row
     const headerRow = ["Year"];
