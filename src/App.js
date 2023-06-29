@@ -3,6 +3,7 @@ import { Typography, Container, Box } from "@mui/material";
 import EditableDataTable from "./EditableDataTable";
 import GanttChart from "./GanttChart";
 import GanttRenderer from "./GanttRenderer";
+
 function App() {
   const [data, setData] = useState([
     {
@@ -375,11 +376,10 @@ function App() {
   }, [filteredData]);
 
   return (
-    <div>
-      <Container>
+    <div className="">
+      <Container className="">
         {/* <GanttChart data={filteredData} /> */}
         <GanttRenderer filteredData={convertedData} />
-        <Box padding="20px"></Box>
         <EditableDataTable
           data={data}
           setData={setData}
