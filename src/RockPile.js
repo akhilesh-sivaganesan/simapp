@@ -1,15 +1,15 @@
 import React from "react";
 import { Chart } from "react-google-charts";
 
-const options = {
-  title: "Site Utilization Rock Pile",
-  hAxis: { title: "Year", titleTextStyle: { color: "#333" } },
-  vAxis: { minValue: 0 },
-  chartArea: { width: "60%", height: "80%" },
-  isStacked: true,
-};
+const RockPile = ({ data, isStacked }) => {
+  const options = {
+    title: "Site Utilization Rock Pile",
+    hAxis: { title: "Year", titleTextStyle: { color: "#333" } },
+    chartArea: { width: "75%", height: "80%" },
+    isStacked: isStacked,
+    lineWidth: 3,
+  };
 
-const RockPile = ({data}) => {
   return (
     <Chart
       chartType="AreaChart"
@@ -17,6 +17,7 @@ const RockPile = ({data}) => {
       height="400px"
       data={data}
       options={options}
+      legend_toggle={true}
     />
   );
 };
