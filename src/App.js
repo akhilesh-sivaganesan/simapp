@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Typography, Container, Box } from "@mui/material";
+import {
+  Typography,
+  Container,
+  ToggleButtonGroup,
+  ToggleButton,
+} from "@mui/material";
 import EditableDataTable from "./EditableDataTable";
 import RockPile from "./RockPile";
 import GanttRenderer from "./GanttRenderer";
@@ -304,24 +309,26 @@ function App() {
     // Create the header row
     const headerRow = ["Year"];
     const dataMap = {};
-  
+
     filteredData.forEach((row) => {
       const startYear = row.DateStart;
       const endYear = row.DateEnd;
       const yearsInDevelopment = endYear - startYear + 1;
-  
+
       // Get the name of the row
       const name = `${row.Program} ${row.Project} ${row.TypeOfWork} ${row.OptionName}`;
-  
+
       // Check if the name is already in the header row
       if (!headerRow.includes(name)) {
         // If not, add it to the header row
         headerRow.push(name);
       }
 
-      const capitalExpenditure = parseInt(row.CapitalExpenditure.replace(/[^0-9]/g, ""));
+      const capitalExpenditure = parseInt(
+        row.CapitalExpenditure.replace(/[^0-9]/g, "")
+      );
       const capitalExpenditurePerYear = capitalExpenditure / yearsInDevelopment;
-  
+
       // Add the capital expenditure to the dataMap for each year
       for (let year = startYear; year <= endYear; year++) {
         // Check if the year is already in the dataMap
@@ -329,14 +336,15 @@ function App() {
           // If not, create a new entry for it
           dataMap[year] = {};
         }
-        dataMap[year][name] = (dataMap[year][name] || 0) + capitalExpenditurePerYear;
+        dataMap[year][name] =
+          (dataMap[year][name] || 0) + capitalExpenditurePerYear;
       }
     });
-  
+
     // Convert the dataMap into an array of rows
     const rows = Object.entries(dataMap).map(([year, rowData]) => {
       const row = [year];
-  
+
       // Iterate over the header row to add the data for each column in order
       headerRow.slice(1).forEach((name) => {
         const value = rowData[name] || 0;
@@ -346,34 +354,48 @@ function App() {
     });
     // Sort the rows by year
     rows.sort((a, b) => a[0] - b[0]);
-  
+
     // Add the header row to the beginning of the rows array
     rows.unshift(headerRow);
     return rows;
   };
-  
-  
+
   // Convert the data into the desired format
   const [convertedData, setConvertedData] = useState(convertData(filteredData));
-  const [convertedChartData, setConvertedChartData] = useState(convertDataForChart(filteredData));
+  const [convertedChartData, setConvertedChartData] = useState(
+    convertDataForChart(filteredData)
+  );
   useEffect(() => {
     // Convert the filteredData whenever it changes
     setConvertedData(convertData(filteredData));
     setConvertedChartData(convertDataForChart(filteredData));
   }, [filteredData]);
 
+  // Add a new state variable to keep track of the isStacked option
+  const [isStacked, setIsStacked] = useState(true);
+
   return (
     <div className="flex flex-col space-y-3">
       <Container className="">
-        <Typography variant="h3" style={{fontWeight: 'bold'}} gutterBottom>
+        <Typography variant="h3" style={{ fontWeight: "bold" }} gutterBottom>
           Rock Pile Chart
         </Typography>
-        <RockPile data={convertedChartData}/>
-        <Typography variant="h3" gutterBottom style={{fontWeight: 'bold'}}>
+        {/* Add a ToggleButtonGroup component to set the isStacked option */}
+        <ToggleButtonGroup
+          exclusive
+          value={isStacked}
+          onChange={(event, value) => setIsStacked(value)}
+        >
+          <ToggleButton value={false}>Not Stacked</ToggleButton>
+          <ToggleButton value={true}>Stacked</ToggleButton>
+          <ToggleButton value="relative">Relative</ToggleButton>
+        </ToggleButtonGroup>
+        <RockPile data={convertedChartData} isStacked={isStacked} />
+        <Typography variant="h3" gutterBottom style={{ fontWeight: "bold" }}>
           Gantt Chart
         </Typography>
         <GanttRenderer filteredData={convertedData} />
-        <Typography variant="h3" style={{fontWeight: 'bold'}} gutterBottom>
+        <Typography variant="h3" style={{ fontWeight: "bold" }} gutterBottom>
           Editable Data Table
         </Typography>
         <EditableDataTable
