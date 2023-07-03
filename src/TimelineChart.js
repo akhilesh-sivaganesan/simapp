@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import Typography from "@mui/material/Typography";
 import { Chart } from "react-google-charts";
 
-const TimelineChart = ({ data, name }) => {
+const TimelineChart = ({ data, name, minStartYear, maxEndYear }) => {
   const [chartData, setChartData] = useState([]);
+  const [chartHeight, setChartHeight] = useState(35 * data.length + 70);
 
   useEffect(() => {
     setChartData([
@@ -16,7 +17,7 @@ const TimelineChart = ({ data, name }) => {
       ],
       ...data.map((item) => [
         item.Program,
-        `${item.Project}`,
+        `${item.IdentifierKey}`,
         `<div class="flex flex-col items-start min-w-[200px] p-3 !z-[1000] bg-white h-full">
           <p class="text-2xl font-bold"> ${item.Project} </p>
           <p><span class='font-bold'>Program:</span> ${item.Program}</p>
@@ -39,7 +40,7 @@ const TimelineChart = ({ data, name }) => {
           <p><span class='font-bold'>Capital Expenditure:</span> ${
             item.CapitalExpenditure
           }</p>
-          <p><span class='font-bold'>DRDB Key:</span> ${item.DRDBKey.join(
+          <p><span class'font-bold'>DRDB Key:</span> ${item.DRDBKey.join(
             ", "
           )}</p>
           <p><span class='font-bold'>SME:</span> ${item.SME}</p>
@@ -56,6 +57,12 @@ const TimelineChart = ({ data, name }) => {
 
   const options = {
     allowHtml: true,
+    alternatingRowStyle: true,
+    hAxis: {
+      minValue: new Date(2023, 0, 1),
+      maxValue: new Date(2040, 11, 31),
+    },
+    height: 50 * data.length + 50,
   };
 
   return (
@@ -69,11 +76,11 @@ const TimelineChart = ({ data, name }) => {
         {" "}
         Occupied Area: {name}
       </Typography>
-      <div className="!z-0">
+      <div className={`!z-0`}>
         <Chart
+          id={name + "" + data.length}
           chartType="Timeline"
           data={chartData}
-          width="100%"
           options={options}
           chartEvents={[
             {
