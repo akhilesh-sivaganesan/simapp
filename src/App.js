@@ -309,26 +309,64 @@ function App() {
     // Create the header row
     const headerRow = ["Year"];
     const dataMap = {};
-
+  
+    // Create a map to store the color, areaOpacity, and lineDashStyle for each series
+    const seriesMap = {};
+  
+    // Define the colors for each Program
+    const colors = {
+      LMXT: "#A52A2A",
+      "F-22": "#5b6be1",
+      "Program C": "#FF0000",
+      P209: "#008000",
+    };
+  
+    // Define the areaOpacity for each Project
+    const opacities = {
+      AFF: 0.5,
+      "AFF Expansion": 0.2,
+      "Design Work Space": 0.5,
+      "General Assembly": 0.5,
+    };
+  
+    // Define the lineDashStyle for each TypeOfWork
+    const lineDashStyles = {
+      LRP: [10, 2],
+      Firm: null,
+      Potential: [2, 2],
+    };
+  
     filteredData.forEach((row) => {
       const startYear = row.DateStart;
       const endYear = row.DateEnd;
       const yearsInDevelopment = endYear - startYear + 1;
-
+  
       // Get the name of the row
       const name = `${row.Program} ${row.Project} ${row.TypeOfWork} ${row.OptionName}`;
-
+  
       // Check if the name is already in the header row
       if (!headerRow.includes(name)) {
         // If not, add it to the header row
         headerRow.push(name);
+  
+        // Get the color for the current Program
+        const color = colors[row.Program];
+  
+        // Get the areaOpacity for the current Project
+        const areaOpacity = opacities[row.Project];
+  
+        // Get the lineDashStyle for the current TypeOfWork
+        const lineDashStyle = lineDashStyles[row.TypeOfWork];
+  
+        // Add the color, areaOpacity, and lineDashStyle to the seriesMap
+        seriesMap[name] = { color, areaOpacity, lineDashStyle };
       }
-
+  
       const capitalExpenditure = parseInt(
         row.CapitalExpenditure.replace(/[^0-9]/g, "")
       );
       const capitalExpenditurePerYear = capitalExpenditure / yearsInDevelopment;
-
+  
       // Add the capital expenditure to the dataMap for each year
       for (let year = startYear; year <= endYear; year++) {
         // Check if the year is already in the dataMap
@@ -340,11 +378,11 @@ function App() {
           (dataMap[year][name] || 0) + capitalExpenditurePerYear;
       }
     });
-
+  
     // Convert the dataMap into an array of rows
     const rows = Object.entries(dataMap).map(([year, rowData]) => {
       const row = [year];
-
+  
       // Iterate over the header row to add the data for each column in order
       headerRow.slice(1).forEach((name) => {
         const value = rowData[name] || 0;
@@ -354,21 +392,28 @@ function App() {
     });
     // Sort the rows by year
     rows.sort((a, b) => a[0] - b[0]);
-
+  
     // Add the header row to the beginning of the rows array
     rows.unshift(headerRow);
-    return rows;
+  
+    // Convert the seriesMap into an array of series options
+    const series = headerRow.slice(1).map((name, index) => ({
+      ...seriesMap[name],
+      index,
+    }));
+  
+    return { rows, series };
   };
+  
 
   // Convert the data into the desired format
   const [convertedData, setConvertedData] = useState(convertData(filteredData));
-  const [convertedChartData, setConvertedChartData] = useState(
-    convertDataForChart(filteredData)
-  );
+  // Convert filteredData into a format that can be used by RockPile component
+  const { rows: chartData, series } = convertDataForChart(filteredData);
   useEffect(() => {
     // Convert the filteredData whenever it changes
     setConvertedData(convertData(filteredData));
-    setConvertedChartData(convertDataForChart(filteredData));
+    // setConvertedChartData(convertDataForChart(filteredData));
   }, [filteredData]);
 
   // Add a new state variable to keep track of the isStacked option
@@ -390,7 +435,7 @@ function App() {
           <ToggleButton value={true}>Stacked</ToggleButton>
           <ToggleButton value="relative">Relative</ToggleButton>
         </ToggleButtonGroup>
-        <RockPile data={convertedChartData} isStacked={isStacked} />
+        <RockPile data={chartData} isStacked={isStacked} series={series} />
         <Typography variant="h3" gutterBottom style={{ fontWeight: "bold" }}>
           Gantt Chart
         </Typography>
