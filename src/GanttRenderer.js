@@ -13,12 +13,17 @@ export default function GanttRenderer({ filteredData }) {
   );
 
   useEffect(() => {
-    console.log(minStartYear)
-    console.log(maxEndYear)
-  }, [])
+    // console.log(minStartYear)
+    // console.log(maxEndYear)
+    var parent = document.getElementById('gantt-renderer');
+    while (parent.firstChild) {
+      parent.removeChild(parent.firstChild);
+    }
+
+  }, [filteredData])
   
   return (
-    <div className="flex flex-col space-y-5">
+    <div className="flex flex-col space-y-0" id='gantt-renderer'>
       {filteredData.map((groupObj, i) => (
         <TimelineChart name={groupObj.OccupiedArea} data={groupObj.rows} key={i} minStartYear={minStartYear} maxEndYear={maxEndYear}/>
       ))}
