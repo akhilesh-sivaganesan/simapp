@@ -1,5 +1,5 @@
 import TimelineChart from "./TimelineChart";
-import { useEffect } from 'react'
+import { useEffect } from "react";
 export default function GanttRenderer({ filteredData }) {
   const minStartYear = Math.min(
     ...filteredData.flatMap((groupObj) =>
@@ -13,19 +13,29 @@ export default function GanttRenderer({ filteredData }) {
   );
 
   useEffect(() => {
+    //console.log(filteredData)
     // console.log(minStartYear)
     // console.log(maxEndYear)
-    var parent = document.getElementById('gantt-renderer');
-    while (parent.firstChild) {
-      parent.removeChild(parent.firstChild);
+    
+    var parent = document.getElementById("gantt-renderer");
+    if (parent) {
+      while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+      }
     }
+    
+  }, [filteredData]);
 
-  }, [filteredData])
-  
   return (
-    <div className="flex flex-col space-y-0" id='gantt-renderer'>
+    <div className="flex flex-col space-y-0 h-full" id="gantt-renderer">
       {filteredData.map((groupObj, i) => (
-        <TimelineChart name={groupObj.OccupiedArea} data={groupObj.rows} key={i} minStartYear={minStartYear} maxEndYear={maxEndYear}/>
+        <TimelineChart
+          name={groupObj.OccupiedArea}
+          data={groupObj.rows}
+          key={i}
+          minStartYear={minStartYear}
+          maxEndYear={maxEndYear}
+        />
       ))}
     </div>
   );

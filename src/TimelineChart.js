@@ -25,6 +25,7 @@ const MyChart = ({ data, name, minStartYear, maxEndYear }) => {
       var chart = new window.google.visualization.Timeline(container);
       var dataTable = new window.google.visualization.DataTable();
       var parent = document.getElementById('gantt-renderer');
+      //console.log('parent is found?: ', parent)
 
 
 
@@ -122,11 +123,11 @@ const MyChart = ({ data, name, minStartYear, maxEndYear }) => {
       var barMargin = barLabelFontSize * 0.75;
       var rowHeight = barHeight + barMargin * 2;
       var chartAreaHeight = rowHeight * data.length;
-      console.log("chart area height: ", chartAreaHeight);
+      //console.log("chart area height: ", chartAreaHeight);
       var axisHeight = 24;
       var whiteSpaceHeight = 27;
       var chartHeight = chartAreaHeight + axisHeight + whiteSpaceHeight;
-      console.log(chartHeight);
+      //console.log(chartHeight);
       chartHeight = chartHeight > 200 ? 200 : chartHeight;
       container.style.height = chartHeight + "px";
       chart.draw(dataTable, options);
