@@ -1,13 +1,16 @@
 import React from "react";
 import { Chart } from "react-google-charts";
 
-const RockPile = ({ data, isStacked }) => {
+const RockPile = ({ data, isStacked, series  }) => {
   const options = {
     title: "Site Utilization Rock Pile",
-    hAxis: { title: "Year", titleTextStyle: { color: "#333" } },
+    hAxis: { title: "Year"},
     chartArea: { width: "75%", height: "80%" },
     isStacked: isStacked,
     lineWidth: 3,
+    pointsVisible: 'true',
+    series,
+    legend: {position: 'right', maxLines: 2}
   };
 
   return (

@@ -62,7 +62,6 @@ const TimelineChart = ({ data, name, minStartYear, maxEndYear }) => {
       minValue: new Date(2023, 0, 1),
       maxValue: new Date(2040, 11, 31),
     },
-    height: 50 * data.length + 50,
   };
 
   return (
@@ -82,6 +81,7 @@ const TimelineChart = ({ data, name, minStartYear, maxEndYear }) => {
           chartType="Timeline"
           data={chartData}
           options={options}
+          height= {50 * data.length + 50}
           chartEvents={[
             {
               eventName: "select",
