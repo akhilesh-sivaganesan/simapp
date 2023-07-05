@@ -296,16 +296,67 @@ function App() {
       return acc;
     }, {});
 
+    // Define the colors for each Program
+    const colors = {
+      LMXT: "#A52A2A",
+      "F-22": "#5b6be1",
+      "Program C": "#FF0000",
+      P209: "#A52A2A",
+    };
+
+    // Define a function to lighten or darken a hex color
+    const adjustColor = (color, amount) => {
+      return (
+        "#" +
+        color
+          .replace(/^#/, "")
+          .replace(/../g, (color) =>
+            (
+              "0" +
+              Math.min(255, Math.max(0, parseInt(color, 16) + amount)).toString(
+                16
+              )
+            ).substr(-2)
+          )
+      );
+    };
+
+    // Define the adjustment amount for each Project
+    const adjustments = {
+      AFF: -30,
+      "AFF Expansion": -60,
+      "Design Work Space": -30,
+      "General Assembly": -30,
+    };
+
     // Convert the grouped data into an array of new JSON objects
     const convertedData = Object.entries(groupedData).map(
-      ([occupiedArea, rows]) => ({
-        OccupiedArea: occupiedArea,
-        rows: rows,
-      })
+      ([occupiedArea, rows]) => {
+        // Create an array of color codes for each row
+        const rowColors = rows.map((row) => {
+          // Get the base color for the current Program
+          const baseColor = colors[row.Program];
+
+          // Get the adjustment amount for the current Project
+          const adjustment = adjustments[row.Project];
+
+          // Adjust the base color to create a new color
+          const color = adjustColor(baseColor, adjustment);
+
+          return color;
+        });
+
+        return {
+          OccupiedArea: occupiedArea,
+          rows: rows,
+          rowColors: rowColors,
+        };
+      }
     );
 
     return convertedData;
   };
+
   const convertDataForChart = (filteredData) => {
     // Create the header row
     const headerRow = ["Year"];
@@ -405,6 +456,99 @@ function App() {
 
     return { rows, series };
   };
+  const convertDataForMultipleCharts = (convertedData) => {
+    return convertedData.map((groupObj) => {
+      const headerRow = ["Year"];
+      const dataMap = {};
+      const seriesMap = {};
+      const colors = {
+        LMXT: "#A52A2A",
+        "F-22": "#5b6be1",
+        "Program C": "#FF0000",
+        P209: "#008000",
+      };
+      const opacities = {
+        AFF: 0.5,
+        "AFF Expansion": 0.2,
+        "Design Work Space": 0.5,
+        "General Assembly": 0.5,
+      };
+      const lineDashStyles = {
+        LRP: null,
+        Firm: [10, 2],
+        Potential: [2, 2],
+      };
+
+      groupObj.rows.forEach((row) => {
+        const startYear = row.DateStart;
+        const endYear = row.DateEnd;
+        const yearsInDevelopment = endYear - startYear + 1;
+
+        // Get the name of the row
+        const name = `${row.Program} ${row.Project} ${row.TypeOfWork} ${row.OptionName}`;
+
+        // Check if the name is already in the header row
+        if (!headerRow.includes(name)) {
+          // If not, add it to the header row
+          headerRow.push(name);
+
+          // Get the color for the current Program
+          const color = colors[row.Program];
+
+          // Get the areaOpacity for the current Project
+          const areaOpacity = opacities[row.Project];
+
+          // Get the lineDashStyle for the current TypeOfWork
+          const lineDashStyle = lineDashStyles[row.TypeOfWork];
+
+          // Add the color, areaOpacity, and lineDashStyle to the seriesMap
+          seriesMap[name] = { color, areaOpacity, lineDashStyle };
+        }
+
+        const capitalExpenditure = parseInt(
+          row.CapitalExpenditure.replace(/[^0-9]/g, "")
+        );
+        const capitalExpenditurePerYear =
+          capitalExpenditure / yearsInDevelopment;
+
+        // Add the capital expenditure to the dataMap for each year
+        for (let year = startYear; year <= endYear; year++) {
+          // Check if the year is already in the dataMap
+          if (!dataMap[year]) {
+            // If not, create a new entry for it
+            dataMap[year] = {};
+          }
+          dataMap[year][name] =
+            (dataMap[year][name] || 0) + capitalExpenditurePerYear;
+        }
+      });
+
+      // Convert the dataMap into an array of rows
+      const rows = Object.entries(dataMap).map(([year, rowData]) => {
+        const row = [year];
+
+        // Iterate over the header row to add the data for each column in order
+        headerRow.slice(1).forEach((name) => {
+          const value = rowData[name] || 0;
+          row.push(value);
+        });
+        return row;
+      });
+      // Sort the rows by year
+      rows.sort((a, b) => a[0] - b[0]);
+
+      // Add the header row to the beginning of the rows array
+      rows.unshift(headerRow);
+
+      // Convert the seriesMap into an array of series options
+      const series = headerRow.slice(1).map((name, index) => ({
+        ...seriesMap[name],
+        index,
+      }));
+
+      return { occupiedArea: groupObj.OccupiedArea, rows, series };
+    });
+  };
 
   // Convert the data into the desired format
   const [convertedData, setConvertedData] = useState(convertData(filteredData));
@@ -413,8 +557,13 @@ function App() {
   useEffect(() => {
     // Convert the filteredData whenever it changes
     setConvertedData(convertData(filteredData));
-    // setConvertedChartData(convertDataForChart(filteredData));
+    console.log("Converted Data for GANTT: ");
+    console.log(convertedData);
+    console.log("Converted Multiple RockPile Data: ");
+    console.log(convertDataForMultipleCharts(convertedData));
   }, [filteredData]);
+  // Convert filteredData into a format that can be used to render multiple RockPile components
+  const multipleChartData = convertDataForMultipleCharts(convertedData);
 
   useEffect(() => {
     // Clear the contents of the parent element
@@ -447,13 +596,26 @@ function App() {
 
       // Function to draw the timeline charts
       function drawCharts() {
-        convertedData.forEach((groupObj) => {
+        convertedData.forEach((groupObj, i) => {
+          if (
+            document.getElementById(
+              groupObj.OccupiedArea + "chartGroup" + groupObj.rows.length
+            )
+          ) {
+            document
+              .getElementById(
+                groupObj.OccupiedArea + "chartGroup" + groupObj.rows.length
+              )
+              .remove();
+          }
           const chartGroup = document.createElement("div");
           chartGroup.classList.add("flex");
           chartGroup.classList.add("flex-col");
           chartGroup.classList.add("items-start");
           chartGroup.classList.add("border");
           chartGroup.classList.add("pt-5");
+          chartGroup.id =
+            groupObj.OccupiedArea + "chartGroup" + groupObj.rows.length;
 
           parent.appendChild(chartGroup);
           const containerId = groupObj.OccupiedArea + "" + groupObj.rows.length;
@@ -487,7 +649,9 @@ function App() {
               rockpileContainer
             );
             const rockpileDataTable =
-              new window.google.visualization.arrayToDataTable(chartData);
+              new window.google.visualization.arrayToDataTable(
+                multipleChartData[i].rows
+              );
             // Add columns and rows to the data table based on the groupObj data
 
             const rockpileOptions = {
@@ -510,7 +674,7 @@ function App() {
               isStacked: isStacked,
               lineWidth: 3,
               pointsVisible: "true",
-              series,
+              series: multipleChartData[i].series,
               legend: { position: "right", maxLines: 2 },
             };
             rockpileChart.draw(rockpileDataTable, rockpileOptions);
@@ -523,10 +687,8 @@ function App() {
             heading.classList.add("ml-[30px]");
 
             heading.textContent = "GANTT: " + groupObj.OccupiedArea;
-
             chartGroup.appendChild(heading);
           }
-
           if (!document.getElementById(containerId)) {
             const container = document.createElement("div");
             container.id = containerId;
@@ -545,7 +707,6 @@ function App() {
             });
             dataTable.addColumn({ type: "date", id: "Start Date" });
             dataTable.addColumn({ type: "date", id: "End Date" });
-
             dataTable.addRows(
               groupObj.rows.map((item) => [
                 item.Program.padStart(13, "."),
@@ -608,9 +769,9 @@ function App() {
                 rowLabelStyle: { fontSize: 12 },
                 barLabelStyle: { fontSize: 12 },
               },
+              // colors: convertedData[i].rowColors
+              colors: ["#A52A2A", "#5b6be1", "#FF0000", "#A52A2A"],
             };
-
-            //chart.draw(dataTable, options);
 
             // Set the height of the chart to fit its content
             var barLabelFontSize = 12;
@@ -621,11 +782,9 @@ function App() {
             var barMargin = barLabelFontSize * 0.75;
             var rowHeight = barHeight + barMargin * 2;
             var chartAreaHeight = rowHeight * data.length;
-            //console.log("chart area height: ", chartAreaHeight);
             var axisHeight = 24;
             var whiteSpaceHeight = 27;
             var chartHeight = chartAreaHeight + axisHeight + whiteSpaceHeight;
-            console.log(chartHeight);
             chartHeight = chartHeight > 200 ? 200 : chartHeight;
 
             container.style.height = chartHeight + "px";
@@ -662,7 +821,6 @@ function App() {
           <Typography variant="h3" style={{ fontWeight: "bold" }}>
             Gantt Chart
           </Typography>
-          {/* <GanttRenderer filteredData={convertedData} /> */}
           <div
             id="gantt-renderer"
             className="flex flex-col items-start space-y-3"
