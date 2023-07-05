@@ -5,7 +5,8 @@ const RockPile = ({ data, isStacked, series  }) => {
   const options = {
     title: "Site Utilization Rock Pile",
     hAxis: { title: "Year"},
-    chartArea: { width: "75%", height: "80%" },
+    //chartArea: { width: "75%", height: "80%" },
+    width: 1120,
     isStacked: isStacked,
     lineWidth: 3,
     pointsVisible: 'true',
@@ -16,8 +17,8 @@ const RockPile = ({ data, isStacked, series  }) => {
   return (
     <Chart
       chartType="AreaChart"
-      width="100%"
-      height="400px"
+      //width="100%"
+      //height="400px"
       data={data}
       options={options}
       legend_toggle={true}

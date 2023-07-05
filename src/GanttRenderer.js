@@ -17,17 +17,43 @@ export default function GanttRenderer({ filteredData }) {
     // console.log(minStartYear)
     // console.log(maxEndYear)
     
-    var parent = document.getElementById("gantt-renderer");
-    if (parent) {
-      while (parent.firstChild) {
-        parent.removeChild(parent.firstChild);
-      }
-    }
+    // var parent = document.getElementById("gantt-renderer");
+    // if (parent) {
+    //   while (parent.firstChild) {
+    //     parent.removeChild(parent.firstChild);
+    //   }
+    // }
     
+    // // var groupParent = document.getElementById('gantt-group')
+    // // if (groupParent) {
+    //   // while (groupParent.firstChild) {
+    //     // groupParent.removeChild(groupParent.firstChild);
+      // }
+    // }
+  }, []);
+
+  useEffect(() => {
+    //console.log(filteredData)
+    // console.log(minStartYear)
+    // console.log(maxEndYear)
+    
+    // var parent = document.getElementById("gantt-renderer");
+    // if (parent) {
+    //   while (parent.firstChild) {
+    //     parent.removeChild(parent.firstChild);
+    //   }
+    // }
+    
+    // // var groupParent = document.getElementById('gantt-group')
+    // // if (groupParent) {
+    //   // while (groupParent.firstChild) {
+    //     // groupParent.removeChild(groupParent.firstChild);
+    //   // }
+    // // }
   }, [filteredData]);
 
   return (
-    <div className="flex flex-col space-y-0 h-full" id="gantt-renderer">
+    <div className="flex flex-col space-y-0 h-full bg-[yellow]" id="gantt-renderer">
       {filteredData.map((groupObj, i) => (
         <TimelineChart
           name={groupObj.OccupiedArea}
@@ -35,6 +61,7 @@ export default function GanttRenderer({ filteredData }) {
           key={i}
           minStartYear={minStartYear}
           maxEndYear={maxEndYear}
+          firstChart={i === 0}
         />
       ))}
     </div>

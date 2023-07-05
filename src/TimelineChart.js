@@ -1,7 +1,27 @@
 import { Typography } from "@mui/material";
 import React, { useEffect } from "react";
 
-const MyChart = ({ data, name, minStartYear, maxEndYear }) => {
+const MyChart = ({ data, name, minStartYear, maxEndYear, firstChart }) => {
+  // useEffect(() => {
+  //   //console.log(filteredData)
+  //   // console.log(minStartYear)
+  //   // console.log(maxEndYear)
+  //   if (firstChart) {
+  //     var parent = document.getElementById("gantt-renderer");
+  //     if (parent) {
+  //       while (parent.firstChild) {
+  //         parent.removeChild(parent.firstChild);
+  //       }
+  //     }
+
+  //     // var groupParent = document.getElementById('gantt-group')
+  //     // if (groupParent) {
+  //     // while (groupParent.firstChild) {
+  //     // groupParent.removeChild(groupParent.firstChild);
+  //     // }
+  //     // }
+  //   }
+  // }, []);
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://www.gstatic.com/charts/loader.js";
@@ -12,37 +32,35 @@ const MyChart = ({ data, name, minStartYear, maxEndYear }) => {
     document.body.appendChild(script);
 
     function drawChart() {
-
       var containerId = name + "" + data.length;
       var container = document.getElementById(containerId);
       if (container) {
         container.remove();
       }
 
-      container = document.createElement('div');
-      container.id = containerId
+      container = document.createElement("div");
+      container.id = containerId;
+      //container.key = containerId;
 
       var chart = new window.google.visualization.Timeline(container);
       var dataTable = new window.google.visualization.DataTable();
-      var parent = document.getElementById('gantt-renderer');
+      var parent = document.getElementById("gantt-renderer");
       //console.log('parent is found?: ', parent)
 
-
-
       var headerId = name + "heading" + data.length;
-      var heading = document.getElementById(headerId)
+      var heading = document.getElementById(headerId);
       if (heading) {
-        heading.remove()
+        heading.remove();
       }
 
-      heading = document.createElement('h5');
-      heading.id = headerId
-      heading.classList.add('text-2xl')
+      heading = document.createElement("h5");
+      heading.id = headerId;
+      //heading.key = headerId;
+      heading.classList.add("text-2xl");
       heading.textContent = name;
 
-      parent.appendChild(heading)
+      parent.appendChild(heading);
       parent.appendChild(container);
-
 
       dataTable.addColumn({ type: "string", id: "Task ID" });
       dataTable.addColumn({ type: "string", id: "Task Name" });
@@ -134,7 +152,7 @@ const MyChart = ({ data, name, minStartYear, maxEndYear }) => {
     }
   }, [data]);
 
-  return null
+  return null;
 };
 
 export default MyChart;
