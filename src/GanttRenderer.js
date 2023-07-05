@@ -120,9 +120,44 @@ export default function GanttRenderer({ filteredData }) {
   const [isStacked, setIsStacked] = useState(true);
 
   useEffect(() => {
-    console.log(minStartYear);
-    console.log(maxEndYear);
+    //console.log(filteredData)
+    // console.log(minStartYear)
+    // console.log(maxEndYear)
+    
+    // var parent = document.getElementById("gantt-renderer");
+    // if (parent) {
+    //   while (parent.firstChild) {
+    //     parent.removeChild(parent.firstChild);
+    //   }
+    // }
+    
+    // // var groupParent = document.getElementById('gantt-group')
+    // // if (groupParent) {
+    //   // while (groupParent.firstChild) {
+    //     // groupParent.removeChild(groupParent.firstChild);
+      // }
+    // }
   }, []);
+
+  useEffect(() => {
+    //console.log(filteredData)
+    // console.log(minStartYear)
+    // console.log(maxEndYear)
+    
+    // var parent = document.getElementById("gantt-renderer");
+    // if (parent) {
+    //   while (parent.firstChild) {
+    //     parent.removeChild(parent.firstChild);
+    //   }
+    // }
+    
+    // // var groupParent = document.getElementById('gantt-group')
+    // // if (groupParent) {
+    //   // while (groupParent.firstChild) {
+    //     // groupParent.removeChild(groupParent.firstChild);
+    //   // }
+    // // }
+  }, [filteredData]);
 
   return (
     <div className="flex flex-col space-y-5">
