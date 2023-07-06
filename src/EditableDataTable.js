@@ -68,33 +68,33 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
         filterVariant: "multi-select",
         muiTableHeadCellFilterTextFieldProps: { placeholder: "Area Filter" },
       },
-      // {
-      //   accessorKey: "IdentifierKey",
-      //   header: "Identifier Key",
-      //   muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-      //     ...getCommonEditTextFieldProps(cell),
-      //   }),
-      //   muiTableHeadCellFilterTextFieldProps: { placeholder: 'Key Filter' },
-      // },
-      // {
-      //   accessorKey: "Flag",
-      //   header: "Flag",
-      //   muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-      //     ...getCommonEditTextFieldProps(cell),
-      //   }),
-      //   size: 120,
-      //   filterVariant: 'multi-select',
-      //   muiTableHeadCellFilterTextFieldProps: { placeholder: 'Flag Filter' },
-      // },
-      // {
-      //   accessorKey: "OptionDetails",
-      //   header: "Option Details",
-      //   muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-      //     ...getCommonEditTextFieldProps(cell),
-      //   }),
-      //   size: 200,
-      //   muiTableHeadCellFilterTextFieldProps: { placeholder: 'Option Filter' },
-      // },
+      {
+        accessorKey: "IdentifierKey",
+        header: "Identifier Key",
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+        muiTableHeadCellFilterTextFieldProps: { placeholder: 'Key Filter' },
+      },
+      {
+        accessorKey: "Primary",
+        header: "Primary",
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+        size: 120,
+        filterVariant: 'multi-select',
+        muiTableHeadCellFilterTextFieldProps: { placeholder: 'Primary Filter' },
+      },
+      {
+        accessorKey: "OptionDetails",
+        header: "Option Details",
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+        size: 200,
+        muiTableHeadCellFilterTextFieldProps: { placeholder: 'Option Filter' },
+      },
       {
         accessorKey: "DateStart",
         header: "Date Start",
@@ -113,15 +113,15 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
         size: 130,
         muiTableHeadCellFilterTextFieldProps: { placeholder: "End Date" },
       },
-      // {
-      //   accessorKey: "Maturity",
-      //   header: "Maturity",
-      //   muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-      //     ...getCommonEditTextFieldProps(cell),
-      //   }),
-      //   size: 150,
-      //   muiTableHeadCellFilterTextFieldProps: { placeholder: 'Maturity' },
-      // },
+      {
+        accessorKey: "Maturity",
+        header: "Maturity",
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+        size: 150,
+        muiTableHeadCellFilterTextFieldProps: { placeholder: 'Maturity' },
+      },
       {
         accessorKey: "TotalCapitalExpenditure",
         header: "Total Capital Expenditure",
@@ -186,15 +186,6 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
           placeholder: "2027 Capital Filter",
         },
       },
-      // {
-      //   accessorKey: "DRDBKey",
-      //   header: "DRDB Key",
-      //   muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-      //     ...getCommonEditTextFieldProps(cell),
-      //   }),
-      //   size: 160,
-      //   muiTableHeadCellFilterTextFieldProps: { placeholder: 'DRDB Filter' },
-      // },
       {
         accessorKey: "SME",
         header: "SME",
@@ -235,21 +226,32 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
         error: !!validationErrors[cell.id],
         helperText: validationErrors[cell.id],
         onBlur: (event) => {
-          let isValid = false;
-          if (
-            cell.column.id === "Project" ||
-            cell.column.id === "Program" ||
-            cell.column.id === "TypeOfWork"
-          ) {
-            isValid = event.target.value.trim() !== "";
+          let isValid = true;
+          let errorMessage = "";
+          if (cell.column.id === "Program") {
+            const validProgram = ["F-22", "LMXT", "P209", "Program C"];
+            isValid = validProgram.includes(event.target.value.trim());
+            errorMessage = `Program must be one of ${validProgram.join(", ")}`;
+          } else if (cell.column.id === "TypeOfWork") {
+            const validTypesOfWork = ["Firm", "LRP", "Potential"];
+            isValid = validTypesOfWork.includes(event.target.value.trim());
+            errorMessage = `TypeOfWork must be one of ${validTypesOfWork.join(", ")}`;
+          } else if (cell.column.id === "Date") {
+            isValid = (typeof event.target.value === "string");
+            errorMessage = `Date must be a string`;
           }
+  
           if (!isValid) {
             setValidationErrors({
               ...validationErrors,
-              [cell.id]: `${cell.column.columnDef.header} is required`,
+              [cell.id]: errorMessage,
             });
+            console.log("NOT VALID: ")
+            console.log(validationErrors)
           } else {
             delete validationErrors[cell.id];
+            console.log("VALID: ")
+            console.log(validationErrors)
             setValidationErrors({
               ...validationErrors,
             });
@@ -258,13 +260,14 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
       };
     },
     [validationErrors]
-  );
+  );  
 
   const handleSaveRowEdits = async ({ exitEditingMode, row, values }) => {
-    console.log('asjdflajsdf')
+    console.log("TRYING TO SAVE")
     if (!Object.keys(validationErrors).length) {
       console.log(row)
       console.log(values)
+      console.log("SAVE SUCCESS!")
       newData[row.index] = values;
       //send/receive api updates here, then refetch or update local table data for re-render
       setNewData([...newData]);
@@ -273,7 +276,8 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
       console.log("replace done")
       exitEditingMode(); //required to exit editing mode and close modal
     } else {
-      console.log(Object.keys(validationErrors))
+      console.log("SAVE FAILED! ")
+      console.log(validationErrors)
     }
   };
 
@@ -319,8 +323,8 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
         density: "compact",
         showColumnFilters: true,
         columnVisibility: {
-          Project: false,
-          TypeOfWork: false,
+          Project: true,
+          TypeOfWork: true,
           Expenditure2023: false,
           Expenditure2024: false,
           Expenditure2025: false,
