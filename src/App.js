@@ -7,274 +7,254 @@ import {
 } from "@mui/material";
 import EditableDataTable from "./EditableDataTable";
 import RockPile from "./RockPile";
-import GanttRenderer from "./GanttRenderer";
+import { useTheme } from "@mui/material/styles";
 
 function App() {
+  // Using Material UI theme
+  const theme = useTheme();
+
   const [data, setData] = useState([
     {
-      Program: "LMXT",
       Project: "Design Work Space",
       TypeOfWork: "LRP",
+      Program: "LMXT",
       OptionName: "A",
       Building: "L-10",
       OccupiedArea: "Levels 1-5",
-      IdentifierKey: "LMXTDesign Work SpaceLRPAL-10Levels 1-5",
-      Flag: "Primary",
-      OptionDetails: "Based on LMXT Team Feedback",
       DateStart: 2023,
       DateEnd: 2037,
-      Maturity: "Capital Review",
-      CapitalExpenditure: "$8,269,000",
-      DRDBKey: ["R25769", "R25777", "R25780", "R25784", "R25785", "R25786"],
-      SME: "Adrian Gibson",
+      TotalCapitalExpenditure: "$5,800,000",
+      Expenditure2023: "$0",
+      Expenditure2024: "$4,375,000",
+      Expenditure2025: "$873,000",
+      Expenditure2026: "$552,000",
+      Expenditure2027: "$0",
+      SME: "Adrian, Gibson",
       Notes:
         "LMXT Building interior design for Engineering, contract award 2025",
       SpaceCharacterization: "Design",
     },
     {
-      Program: "F-22",
       Project: "AFF",
       TypeOfWork: "Potential",
+      Program: "F-22",
       OptionName: "A",
       Building: "L-64",
       OccupiedArea: "Bay 2",
-      IdentifierKey: "F-22AFFPotentialAL-64Bay 2",
-      Flag: "Primary",
-      OptionDetails: "Based on 2022 Marietta WIP",
       DateStart: 2028,
       DateEnd: 2030,
-      Maturity: "Capital Review",
-      CapitalExpenditure: "$8,400,000",
-      DRDBKey: ["R24036"],
-      SME: "Patel Pathik J",
-      Notes: "Maintain F-22 rate of turnaround for sustainment",
+      TotalCapitalExpenditure: "$0",
+      Expenditure2023: "$0",
+      Expenditure2024: "$0",
+      Expenditure2025: "$0",
+      Expenditure2026: "$0",
+      Expenditure2027: "$0",
+      SME: "Patel, Pathik J",
+      Notes: "Cost captured in LRP, same option",
       SpaceCharacterization: "Sustainment",
     },
     {
-      Program: "F-22",
       Project: "AFF",
+      Program: "F-22",
       TypeOfWork: "LRP",
       OptionName: "A",
       Building: "L-64",
       OccupiedArea: "Bay 2",
-      IdentifierKey: "F-22AFFLRPAL-64Bay 2",
-      Flag: "Primary",
-      OptionDetails: "Based on 2022 Marietta WIP",
       DateStart: 2026,
       DateEnd: 2028,
-      Maturity: "Capital Review",
-      CapitalExpenditure: "$8,400,000",
-      DRDBKey: ["R24036"],
-      SME: "Patel Pathik J",
+      TotalCapitalExpenditure: "$0",
+      Expenditure2023: "$0",
+      Expenditure2024: "$0",
+      Expenditure2025: "$0",
+      Expenditure2026: "$0",
+      Expenditure2027: "$0",
+      SME: "Patel, Pathik J",
       Notes: "Maintain F-22 rate of turnaround for sustainment",
       SpaceCharacterization: "Sustainment",
     },
     {
-      Program: "F-22",
       Project: "AFF",
+      Program: "F-22",
       TypeOfWork: "Firm",
       OptionName: "A",
       Building: "L-64",
       OccupiedArea: "Bay 2",
-      IdentifierKey: "F-22AFFFirmAL-64Bay 2",
-      Flag: "Primary",
-      OptionDetails: "Based on 2022 Marietta WIP",
       DateStart: 2024,
       DateEnd: 2026,
-      Maturity: "Capital Review",
-      CapitalExpenditure: "$8,400,000",
-      DRDBKey: ["R24036"],
-      SME: "Patel Pathik J",
-      Notes: "Maintain F-22 rate of turnaround for sustainment",
+      TotalCapitalExpenditure: "$8,000,000",
+      Expenditure2023: "$0",
+      Expenditure2024: "$500,000",
+      Expenditure2025: "$6,500,000",
+      Expenditure2026: "$1,000,000",
+      Expenditure2027: "$0",
+      SME: "Patel, Pathik J",
+      Notes: "Cost captured in LRP, same option",
       SpaceCharacterization: "Sustainment",
     },
     {
-      Program: "F-22",
       Project: "AFF",
+      Program: "F-22",
       TypeOfWork: "LRP",
-      OptionName: "A",
+      OptionName: "B",
       Building: "L-64",
       OccupiedArea: "Bay 1",
-      IdentifierKey: "F-22AFFLRPAL-64Bay 1",
-      Flag: "Alt",
-      OptionDetails: "Alternative Plan",
-      DateStart: "2024",
+      DateStart: "2023",
       DateEnd: "2026",
-      Maturity: "N/A",
-      CapitalExpenditure: "$8,400,000",
-      DRDBKey: ["N/A"],
-      SME: "Patel Pathik J",
-      Notes: "Estimated Cost of Bay 1 in relation to Bay 2",
-      SpaceCharacterization: "Sustainment",
+      TotalCapitalExpenditure: "$8,000,000 ",
+      Expenditure2023: "$0 ",
+      Expenditure2024: "$500,000 ",
+      Expenditure2025: "$6,500,000 ",
+      Expenditure2026: "$1,000,000 ",
+      Expenditure2027: "$0 ",
+      SME: "Patel, Pathik J",
+      Notes: "WAG based on Bay 2 P&E Cost",
     },
     {
-      Program: "Program C",
       Project: "AFF Expansion",
+      Program: "Program C",
       TypeOfWork: "LRP",
       OptionName: "A",
       Building: "L-64",
       OccupiedArea: "Bay 2",
-      IdentifierKey: "Program CAFF ExpansionLRPAL-64Bay 2",
-      Flag: "Primary",
-      OptionDetails: "Based on 2022 Marietta WIP",
       DateStart: 2025,
       DateEnd: 2040,
-      Maturity: "Pushed to 2025",
-      CapitalExpenditure: "$10,223,000",
-      DRDBKey: [],
-      SME: "Lanning Christine",
+      TotalCapitalExpenditure: "$10,223,000",
+      Expenditure2023: "$0",
+      Expenditure2024: "$0",
+      Expenditure2025: "$3,400,000",
+      Expenditure2026: "$6,823,000",
+      Expenditure2027: "$0",
+      SME: "Lanning, Christine",
       Notes: "Occupancy in 2026",
       SpaceCharacterization: "Expansion",
     },
     {
-      Program: "Program C",
       Project: "AFF",
+      Program: "Program C",
       TypeOfWork: "Firm",
       OptionName: "A",
       Building: "L-64",
-      OccupiedArea: "Bay 3",
-      IdentifierKey: "Program CAFFFirmAL-64Bay 3",
-      Flag: "Primary",
-      OptionDetails: "Currently Occupied",
-      DateStart: 2023,
-      DateEnd: 2040,
-      Maturity: "N/A",
-      CapitalExpenditure: "$0",
-      DRDBKey: [],
-      SME: "Lanning Christine",
-      Notes: "",
-      SpaceCharacterization: "",
+      OccupiedArea: "Bay 3 ",
+      DateStart: "2023",
+      DateEnd: "2040",
+      TotalCapitalExpenditure: "$0 ",
+      Expenditure2023: "$0 ",
+      Expenditure2024: "$0 ",
+      Expenditure2025: "$0 ",
+      Expenditure2026: "$0 ",
+      Expenditure2027: "$0 ",
+      SME: "Lanning, Christine",
     },
     {
-      Program: "P209",
       Project: "General Assemby",
-      TypeOfWork: "LRP",
+      Program: "P209",
       OptionName: "A",
-      Building: "B54",
+      TypeOfWork: "LRP",
+      Building: "B64",
       OccupiedArea: "All",
-      IdentifierKey: "P209General AssembyLRPAB54All",
-      Flag: "Primary",
-      OptionDetails: "Facilities Recommended",
       DateStart: "2024",
       DateEnd: "2040",
-      Maturity: "N/A",
-      CapitalExpenditure: "$4,085,000",
-      DRDBKey: ["R25511"],
-      SME: "Reiman Britt",
+      TotalCapitalExpenditure: "$6,780,000 ",
+      Expenditure2023: "$0 ",
+      Expenditure2024: "$1,542,000 ",
+      Expenditure2025: "$4,988,000 ",
+      Expenditure2026: "$250,000 ",
+      Expenditure2027: "$0 ",
+      SME: "Reiman, Britt",
       Notes: "Need April 2025",
       SpaceCharacterization: "Collateral",
     },
     {
-      Program: "F-22",
       Project: "AFF",
-      TypeOfWork: "LRP",
-      OptionName: "B",
-      Building: "L-64",
-      OccupiedArea: "Bay 1",
-      IdentifierKey: "F-22AFFLRPBL-64Bay 1",
-      Flag: "Alt",
-      OptionDetails: "Alternative Plan",
-      DateStart: 2023,
-      DateEnd: 2026,
-      Maturity: "N/A",
-      CapitalExpenditure: "$0",
-      DRDBKey: ["N/A"],
-      SME: "",
-      Notes: "",
-      SpaceCharacterization: "",
-    },
-    {
       Program: "Program C",
-      Project: "AFF",
       TypeOfWork: "LRP",
       OptionName: "B",
       Building: "L-64",
       OccupiedArea: "Bay 1",
-      IdentifierKey: "Program CAFF LRPBL-64Bay 1",
-      Flag: "Alt",
-      OptionDetails: "Alternative Plan",
-      DateStart: "2025",
-      DateEnd: "2040",
-      Maturity: "Pushed to 2025",
-      CapitalExpenditure: "$10,223,000",
-      DRDBKey: ["N/A"],
+      DateStart: 2025,
+      DateEnd: 2040,
+      TotalCapitalExpenditure: "$10,223,000",
+      Expenditure2023: "$0",
+      Expenditure2024: "$0",
+      Expenditure2025: "$3,400,000",
+      Expenditure2026: "$6,823,000",
+      Expenditure2027: "$0",
       SME: "Lanning, Christine",
-      Notes: "Occupancy in 2027",
+      Notes: "Assume same WAG as Bay 2 occupancy costs",
       SpaceCharacterization: "Expansion",
     },
     {
-      Program: "P209",
       Project: "General Assembly",
-      TypeOfWork: "LRP",
+      Program: "P209",
       OptionName: "B",
+      TypeOfWork: "LRP",
       Building: "L-10",
       OccupiedArea: "Levels 1-5",
-      IdentifierKey: "P209General AssembyLRPBL-10Levels 1-5",
-      Flag: "Alt",
-      OptionDetails: "Alternative Plan",
-      DateStart: "2024",
-      DateEnd: "2040",
-      Maturity: "N/A",
-      CapitalExpenditure:
-        "Capabilities, total space, ICD705, transport of classified materials, equipment current, Total Capital graph comparison between different options",
-      DRDBKey: ["N/A"],
-      SME: "Reiman Britt",
-      Notes: "Alternative, deemed B54 better option cost-wise",
+      DateStart: 2024,
+      DateEnd: 2040,
+      TotalCapitalExpenditure: "$6,780,000",
+      Expenditure2023: "$0",
+      Expenditure2024: "$1,542,000",
+      Expenditure2025: "$4,988,000",
+      Expenditure2026: "$250,000",
+      Expenditure2027: "$0",
+      SME: "Reiman, Britt",
+      Notes: "Deemed B54 better option cost-wise, assume same cost as B64",
       SpaceCharacterization: "Final Integration",
     },
     {
-      Program: "Program C",
       Project: "AFF",
+      Program: "Program C",
       TypeOfWork: "LRP",
       OptionName: "C",
       Building: "New Classified AFF Facility",
       OccupiedArea: "All",
-      IdentifierKey: "Program CAFF LRPCNew Classified AFF FacilityAll",
-      Flag: "Alt",
-      OptionDetails: "Theoretical Building",
-      DateStart: 2025,
-      DateEnd: 2040,
-      Maturity: "N/A",
-      CapitalExpenditure: "$50,000,000",
-      DRDBKey: ["N/A"],
-      SME: "Lanning Christine",
-      Notes: "Theoretical New Building, WAG",
+      DateStart: "2025",
+      DateEnd: "2040",
+      TotalCapitalExpenditure: "$50,000,000 ",
+      Expenditure2023: "$0 ",
+      Expenditure2024: "$0 ",
+      Expenditure2025: "$15,000,000 ",
+      Expenditure2026: "$10,000,000 ",
+      Expenditure2027: "$25,000,000 ",
+      SME: "Lanning, Christine",
+      Notes: "Theoretical New Building, WAG on amount and years",
       SpaceCharacterization: "Design & Construction",
     },
     {
-      Program: "F-22",
       Project: "AFF",
+      Program: "F-22",
       TypeOfWork: "LRP",
       OptionName: "C",
       Building: "L-64",
       OccupiedArea: "Bay 2",
-      IdentifierKey: "F-22AFFLRPCL-64Bay 2",
-      Flag: "Alt",
-      OptionDetails: "F-22 using L64 after Prog. C AFF Expansion",
-      DateStart: 2025,
-      DateEnd: 2040,
-      Maturity: "N/A",
-      CapitalExpenditure: "$10,223,000",
-      DRDBKey: ["R25503"],
-      SME: "Patel Pathik J",
+      DateStart: "2025",
+      DateEnd: "2040",
+      TotalCapitalExpenditure: "$10,223,000 ",
+      Expenditure2023: "$0 ",
+      Expenditure2024: "$0 ",
+      Expenditure2025: "$3,400,000 ",
+      Expenditure2026: "$6,823,000 ",
+      Expenditure2027: "$0 ",
+      SME: "Patel, Pathik J",
       Notes: "Assuming F-22 uses Prog C AFF Expansion Building",
       SpaceCharacterization: "Speedline",
     },
     {
-      Program: "F-22",
       Project: "AFF",
+      Program: "F-22",
       TypeOfWork: "LRP",
       OptionName: "C",
       Building: "New AFF Facility",
       OccupiedArea: "All",
-      IdentifierKey: "F-22AFFLRPCNew AFF FacilityAll",
-      Flag: "Alt",
-      OptionDetails: "New AFF Building for F-22",
       DateStart: 2025,
       DateEnd: 2040,
-      Maturity: "N/A",
-      CapitalExpenditure: "$175,000,000",
-      DRDBKey: ["N/A"],
+      TotalCapitalExpenditure: "$175,000,000 ",
+      Expenditure2023: "$0 ",
+      Expenditure2024: "$0 ",
+      Expenditure2025: "$75,000,000 ",
+      Expenditure2026: "$25,000,000 ",
+      Expenditure2027: "$75,000,000 ",
       SME: "Patel, Pathik J",
       Notes: "Assuming F-22 gets a new AFF Building",
       SpaceCharacterization: "Speedline",
@@ -298,10 +278,10 @@ function App() {
 
     // Define the colors for each Program
     const colors = {
-      LMXT: "#A52A2A",
-      "F-22": "#5b6be1",
-      "Program C": "#FF0000",
-      P209: "#A52A2A",
+      LMXT: "#109618",
+      "F-22": "#3366CC", //blue
+      "Program C": "#DC3912", //red
+      P209: "#990099",
     };
 
     // Define a function to lighten or darken a hex color
@@ -321,12 +301,11 @@ function App() {
       );
     };
 
-    // Define the adjustment amount for each Project
+    // Define the adjustment amount for each TypeOfWork
     const adjustments = {
-      AFF: -30,
-      "AFF Expansion": -60,
-      "Design Work Space": -30,
-      "General Assembly": -30,
+      LRP: 0,
+      Firm: +60,
+      Potential: +90,
     };
 
     // Convert the grouped data into an array of new JSON objects
@@ -337,12 +316,10 @@ function App() {
           // Get the base color for the current Program
           const baseColor = colors[row.Program];
 
-          // Get the adjustment amount for the current Project
-          const adjustment = adjustments[row.Project];
-
+          // Get the adjustment amount for the current TypeOfWork
+          const adjustment = adjustments[row.TypeOfWork];
           // Adjust the base color to create a new color
           const color = adjustColor(baseColor, adjustment);
-
           return color;
         });
 
@@ -353,7 +330,6 @@ function App() {
         };
       }
     );
-
     return convertedData;
   };
 
@@ -361,80 +337,64 @@ function App() {
     // Create the header row
     const headerRow = ["Year"];
     const dataMap = {};
-
+  
     // Create a map to store the color, areaOpacity, and lineDashStyle for each series
     const seriesMap = {};
-
+  
     // Define the colors for each Program
     const colors = {
-      LMXT: "#A52A2A",
-      "F-22": "#5b6be1",
-      "Program C": "#FF0000",
-      P209: "#008000",
+      LMXT: "#109618",
+      "F-22": "#3366CC",
+      "Program C": "#DC3912",
+      P209: "#990099",
     };
-
-    // Define the areaOpacity for each Project
     const opacities = {
-      AFF: 0.5,
-      "AFF Expansion": 0.2,
-      "Design Work Space": 0.5,
-      "General Assembly": 0.5,
+      LRP: 0.8,
+      Firm: 0.5,
+      Potential: 0.3,
     };
-
-    // Define the lineDashStyle for each TypeOfWork
-    const lineDashStyles = {
-      LRP: [10, 2],
-      Firm: null,
-      Potential: [2, 2],
-    };
-
+  
     filteredData.forEach((row) => {
-      const startYear = row.DateStart;
-      const endYear = row.DateEnd;
-      const yearsInDevelopment = endYear - startYear + 1;
-
       // Get the name of the row
       const name = `${row.Program} ${row.Project} ${row.TypeOfWork} ${row.OptionName}`;
-
+  
       // Check if the name is already in the header row
       if (!headerRow.includes(name)) {
         // If not, add it to the header row
         headerRow.push(name);
-
+  
         // Get the color for the current Program
         const color = colors[row.Program];
-
+  
         // Get the areaOpacity for the current Project
-        const areaOpacity = opacities[row.Project];
-
-        // Get the lineDashStyle for the current TypeOfWork
-        const lineDashStyle = lineDashStyles[row.TypeOfWork];
-
-        // Add the color, areaOpacity, and lineDashStyle to the seriesMap
-        seriesMap[name] = { color, areaOpacity, lineDashStyle };
+        const areaOpacity = opacities[row.TypeOfWork];
+  
+        // Add the color, areaOpacity to the seriesMap
+        seriesMap[name] = { color, areaOpacity };
       }
-
-      const capitalExpenditure = parseInt(
-        row.CapitalExpenditure.replace(/[^0-9]/g, "")
-      );
-      const capitalExpenditurePerYear = capitalExpenditure / yearsInDevelopment;
-
+  
       // Add the capital expenditure to the dataMap for each year
-      for (let year = startYear; year <= endYear; year++) {
+      for (let year = 2023; year <= 2040; year++) {
         // Check if the year is already in the dataMap
         if (!dataMap[year]) {
           // If not, create a new entry for it
           dataMap[year] = {};
         }
-        dataMap[year][name] =
-          (dataMap[year][name] || 0) + capitalExpenditurePerYear;
+        const expenditureField = `Expenditure${year}`;
+        if (row[expenditureField]) {
+          const capitalExpenditure = parseInt(
+            row[expenditureField].replace(/[^0-9]/g, "")
+          );
+          dataMap[year][name] =
+            (dataMap[year][name] || 0) + capitalExpenditure;
+        }
       }
     });
-
+  
     // Convert the dataMap into an array of rows
     const rows = Object.entries(dataMap).map(([year, rowData]) => {
       const row = [year];
-
+  
       // Iterate over the header row to add the data for each column in order
       headerRow.slice(1).forEach((name) => {
         const value = rowData[name] || 0;
@@ -444,89 +404,77 @@ function App() {
     });
     // Sort the rows by year
     rows.sort((a, b) => a[0] - b[0]);
-
+  
     // Add the header row to the beginning of the rows array
     rows.unshift(headerRow);
-
+  
     // Convert the seriesMap into an array of series options
     const series = headerRow.slice(1).map((name, index) => ({
       ...seriesMap[name],
       index,
     }));
-
+  
     return { rows, series };
   };
+  
   const convertDataForMultipleCharts = (convertedData) => {
     return convertedData.map((groupObj) => {
       const headerRow = ["Year"];
       const dataMap = {};
       const seriesMap = {};
       const colors = {
-        LMXT: "#A52A2A",
-        "F-22": "#5b6be1",
-        "Program C": "#FF0000",
-        P209: "#008000",
+        LMXT: "#109618",
+        "F-22": "#3366CC",
+        "Program C": "#DC3912",
+        P209: "#990099",
       };
       const opacities = {
-        AFF: 0.5,
-        "AFF Expansion": 0.2,
-        "Design Work Space": 0.5,
-        "General Assembly": 0.5,
+        LRP: 0.8,
+        Firm: 0.5,
+        Potential: 0.3,
       };
-      const lineDashStyles = {
-        LRP: null,
-        Firm: [10, 2],
-        Potential: [2, 2],
-      };
-
+  
       groupObj.rows.forEach((row) => {
-        const startYear = row.DateStart;
-        const endYear = row.DateEnd;
-        const yearsInDevelopment = endYear - startYear + 1;
-
         // Get the name of the row
         const name = `${row.Program} ${row.Project} ${row.TypeOfWork} ${row.OptionName}`;
-
+  
         // Check if the name is already in the header row
         if (!headerRow.includes(name)) {
           // If not, add it to the header row
           headerRow.push(name);
-
+  
           // Get the color for the current Program
           const color = colors[row.Program];
-
+  
           // Get the areaOpacity for the current Project
-          const areaOpacity = opacities[row.Project];
-
-          // Get the lineDashStyle for the current TypeOfWork
-          const lineDashStyle = lineDashStyles[row.TypeOfWork];
-
-          // Add the color, areaOpacity, and lineDashStyle to the seriesMap
-          seriesMap[name] = { color, areaOpacity, lineDashStyle };
+          const areaOpacity = opacities[row.TypeOfWork];
+  
+          // Add the color, areaOpacity to the seriesMap
+          seriesMap[name] = { color, areaOpacity };
         }
-
-        const capitalExpenditure = parseInt(
-          row.CapitalExpenditure.replace(/[^0-9]/g, "")
-        );
-        const capitalExpenditurePerYear =
-          capitalExpenditure / yearsInDevelopment;
-
+  
         // Add the capital expenditure to the dataMap for each year
-        for (let year = startYear; year <= endYear; year++) {
+        for (let year = 2023; year <= 2040; year++) {
           // Check if the year is already in the dataMap
           if (!dataMap[year]) {
             // If not, create a new entry for it
             dataMap[year] = {};
           }
-          dataMap[year][name] =
-            (dataMap[year][name] || 0) + capitalExpenditurePerYear;
+          const expenditureField = `Expenditure${year}`;
+          if (row[expenditureField]) {
+            const capitalExpenditure = parseInt(
+              row[expenditureField].replace(/[^0-9]/g, "")
+            );
+            dataMap[year][name] =
+              (dataMap[year][name] || 0) + capitalExpenditure;
+          }
         }
       });
-
+  
       // Convert the dataMap into an array of rows
       const rows = Object.entries(dataMap).map(([year, rowData]) => {
         const row = [year];
-
+  
         // Iterate over the header row to add the data for each column in order
         headerRow.slice(1).forEach((name) => {
           const value = rowData[name] || 0;
@@ -536,16 +484,16 @@ function App() {
       });
       // Sort the rows by year
       rows.sort((a, b) => a[0] - b[0]);
-
+  
       // Add the header row to the beginning of the rows array
       rows.unshift(headerRow);
-
+  
       // Convert the seriesMap into an array of series options
       const series = headerRow.slice(1).map((name, index) => ({
         ...seriesMap[name],
         index,
       }));
-
+  
       return { occupiedArea: groupObj.OccupiedArea, rows, series };
     });
   };
@@ -559,12 +507,11 @@ function App() {
     setConvertedData(convertData(filteredData));
     console.log("Converted Data for GANTT: ");
     console.log(convertedData);
-    console.log("Converted Multiple RockPile Data: ");
-    console.log(convertDataForMultipleCharts(convertedData));
+    // console.log("Converted Multiple RockPile Data: ");
+    // console.log(convertDataForMultipleCharts(convertedData));
   }, [filteredData]);
   // Convert filteredData into a format that can be used to render multiple RockPile components
   const multipleChartData = convertDataForMultipleCharts(convertedData);
-
   useEffect(() => {
     // Clear the contents of the parent element
     if (convertedData) {
@@ -634,8 +581,10 @@ function App() {
             heading.id = heading1Id;
             heading.classList.add("text-2xl");
             heading.classList.add("ml-[30px]");
-            heading.textContent = "Rockpile: " + groupObj.OccupiedArea;
-
+            groupObj.rows.forEach((row, rowIndex) => {
+              // You can use the variable rowIndex to access elements of the groupObj.rows array
+              heading.textContent = groupObj.rows[rowIndex].Program + " " + groupObj.OccupiedArea;
+            });
             chartGroup.appendChild(heading);
           }
 
@@ -656,8 +605,6 @@ function App() {
 
             const rockpileOptions = {
               // Define options for the rockpile chart
-              title: "Site Utilization Rock Pile",
-
               hAxis: {
                 minValue: new Date(2023, 0, 1),
                 maxValue: new Date(2040, 11, 31),
@@ -671,8 +618,8 @@ function App() {
                 //width: "75%",
                 //height: "80%"
               },
-              isStacked: isStacked,
-              lineWidth: 3,
+              isStacked: true,
+              lineWidth: 2,
               pointsVisible: "true",
               series: multipleChartData[i].series,
               legend: { position: "right", maxLines: 2 },
@@ -685,8 +632,10 @@ function App() {
             heading.id = heading2Id;
             heading.classList.add("text-2xl");
             heading.classList.add("ml-[30px]");
-
-            heading.textContent = "GANTT: " + groupObj.OccupiedArea;
+            groupObj.rows.forEach((row, rowIndex) => {
+              // You can use the variable rowIndex to access elements of the groupObj.rows array
+              heading.textContent = groupObj.rows[rowIndex].Program + " " + groupObj.OccupiedArea;
+            });
             chartGroup.appendChild(heading);
           }
           if (!document.getElementById(containerId)) {
@@ -697,7 +646,6 @@ function App() {
 
             const chart = new window.google.visualization.Timeline(container);
             const dataTable = new window.google.visualization.DataTable();
-
             dataTable.addColumn({ type: "string", id: "Task ID" });
             dataTable.addColumn({ type: "string", id: "Task Name" });
             dataTable.addColumn({
@@ -737,9 +685,6 @@ function App() {
             <p><span class='font-bold'>Capital Expenditure:</span> ${
               item.CapitalExpenditure
             }</p>
-            <p><span class'font-bold'>DRDB Key:</span> ${item.DRDBKey.join(
-              ", "
-            )}</p>
             <p><span class='font-bold'>SME:</span> ${item.SME}</p>
             <p><span class='font-bold'>Notes:</span> ${item.Notes}</p>
             <p><span class='font-bold'>Space Characterization:</span> ${
@@ -769,9 +714,9 @@ function App() {
                 rowLabelStyle: { fontSize: 12 },
                 barLabelStyle: { fontSize: 12 },
               },
-              // colors: convertedData[i].rowColors
-              colors: ["#A52A2A", "#5b6be1", "#FF0000", "#A52A2A"],
+              colors: convertedData[i].rowColors,
             };
+            // console.log(options.colors + " Row " + i);
 
             // Set the height of the chart to fit its content
             var barLabelFontSize = 12;
