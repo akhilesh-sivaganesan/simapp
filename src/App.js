@@ -9,6 +9,7 @@ import EditableDataTable from "./EditableDataTable";
 import RockPile from "./RockPile";
 import { useTheme } from "@mui/material/styles";
 import LockheedMartinLogo from "./assets/lockheed.jpg";
+import StickyLegend from "./StickyLegend";
 
 function App() {
   // Using Material UI theme
@@ -692,9 +693,10 @@ function App() {
               width: 1120,
               isStacked: true,
               lineWidth: 2,
+              pointSize: 4,
               pointsVisible: "true",
               series: multipleChartData[i].series,
-              legend: { position: "right", maxLines: 2 },
+              legend: { position: "none", maxLines: 2 },
             };
             rockpileChart.draw(rockpileDataTable, rockpileOptions);
           }
@@ -835,7 +837,8 @@ function App() {
   const [isStacked, setIsStacked] = useState(true);
 
   return (
-    <div className="flex flex-col space-y-3">
+    <div className="flex flex-col space-y-3 ">
+      <StickyLegend/>
       <div className="bg-[#01478c] p-2 w-full flex flex-row items-center justify-between space-x-4">
         <div className="flex flex-row space-x-2 items-center">
           <img src={LockheedMartinLogo} className="h-[50px] w-[50px]" />
@@ -859,7 +862,7 @@ function App() {
           </Typography>
         </div>
       </div>
-      <Container className="space-y-2 py-10">
+      <Container className="space-y-2 py-10 ">
         <div className="flex flex-col items-start">
           <Typography variant="h2" gutterBottom>
             Site Integration Model

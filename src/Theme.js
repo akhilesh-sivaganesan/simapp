@@ -35,7 +35,7 @@ theme.components = {
       containedPrimary: {
         background: `linear-gradient(45deg, ${theme.palette.primary.main} 70%, ${theme.palette.primary.light} 90%)`,
         "&.Mui-disabled": {
-          display: "none",
+          background: `linear-gradient(45deg, lightgrey 70%, lightgrey 90%)`
         },
       },
     },
