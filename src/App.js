@@ -9,6 +9,7 @@ import EditableDataTable from "./EditableDataTable";
 import RockPile from "./RockPile";
 import { useTheme } from "@mui/material/styles";
 import LockheedMartinLogo from "./assets/lockheed.jpg";
+import StickyLegend from "./StickyLegend";
 
 function App() {
   // Using Material UI theme
@@ -622,9 +623,10 @@ function App() {
               },
               isStacked: true,
               lineWidth: 2,
+              pointSize: 4,
               pointsVisible: "true",
               series: multipleChartData[i].series,
-              legend: { position: "right", maxLines: 2 },
+              legend: { position: "none", maxLines: 2 },
             };
             rockpileChart.draw(rockpileDataTable, rockpileOptions);
           }
@@ -758,6 +760,7 @@ function App() {
 
   return (
     <div className="flex flex-col space-y-3">
+      <StickyLegend/>
       <div className="bg-[#01478c] p-2 w-full flex flex-row items-center space-x-4">
         <img src={LockheedMartinLogo} className="h-[50px] w-[50px]"/>
         <h5 className="text-2xl text-white">Site Integration Model</h5>

@@ -321,6 +321,7 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
           Expenditure2026: false,
           Expenditure2027: false,
         },
+        pagination: { pageSize: 25 }
       }}
       onEditingRowSave={handleSaveRowEdits}
       onEditingRowCancel={handleCancelRowEdits}
