@@ -1,29 +1,34 @@
 import React from "react";
 import { Chart } from "react-google-charts";
 
-const RockPile = ({ data, isStacked, series  }) => {
+const RockPile = ({ data, isStacked, series }) => {
   const options = {
     title: "Site Utilization Rock Pile",
-    hAxis: { title: "Year"},
+    titleTextStyle: {
+      fontName: 'Inter Tight',
+    },
+    hAxis: { title: "Year" },
     chartArea: { height: "80%", left: "10%", width: "80%", right: "9%", },
     width: 1100,
     isStacked: isStacked,
     lineWidth: 2,
     pointSize: 4,
-    pointsVisible: 'true',
+    pointsVisible: "true",
     series,
-    legend: {position: 'none'},
+    legend: 'none',
     tooltip: {showColorCode: true}
   };
 
   return (
-    <Chart
-      chartType="AreaChart"
-      height="500px"
-      data={data}
-      options={options}
-      legend_toggle={true}
-    />
+    <div className="border shadow-lg rounded-md overflow-hidden">
+      <Chart
+        chartType="AreaChart"
+        height="500px"
+        data={data}
+        options={options}
+        legend_toggle={true}
+      />
+    </div>
   );
 };
 

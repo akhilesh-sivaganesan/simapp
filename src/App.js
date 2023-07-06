@@ -313,6 +313,24 @@ function App() {
     // Convert the grouped data into an array of new JSON objects
     const convertedData = Object.entries(groupedData).map(
       ([occupiedArea, rows]) => {
+        //Implement sort function here
+        /*
+        rows.sort((a, b) => {
+          if (a.DateStart < b.DateStart) return -1;
+          if (a.DateStart > b.DateStart) return 1;
+          if (a.DateEnd < b.DateEnd) return -1;
+          if (a.DateEnd > b.DateEnd) return 1;
+          if (a.Program < b.Program) return -1;
+          if (a.Program > b.Program) return 1;
+          if (a.Project < b.Project) return -1;
+          if (a.Project > b.Project) return 1;
+          if (a.OptionName < b.OptionName) return -1;
+          if (a.OptionName > b.OptionName) return 1;
+          if (a.TypeOfWork < b.TypeOfWork) return -1;
+          if (a.TypeOfWork > b.TypeOfWork) return 1;
+          return 0;
+      });
+      */
         // Create an array of color codes for each row
         const rowColors = rows.map((row) => {
           // Get the base color for the current Program
@@ -339,10 +357,10 @@ function App() {
     // Create the header row
     const headerRow = ["Year"];
     const dataMap = {};
-  
+
     // Create a map to store the color, areaOpacity, and lineDashStyle for each series
     const seriesMap = {};
-  
+
     // Define the colors for each Program
     const colors = {
       LMXT: "#109618",
@@ -355,26 +373,26 @@ function App() {
       Firm: 0.5,
       Potential: 0.3,
     };
-  
+
     filteredData.forEach((row) => {
       // Get the name of the row
       const name = `${row.Program} ${row.Project} ${row.TypeOfWork} ${row.OptionName}`;
-  
+
       // Check if the name is already in the header row
       if (!headerRow.includes(name)) {
         // If not, add it to the header row
         headerRow.push(name);
-  
+
         // Get the color for the current Program
         const color = colors[row.Program];
-  
+
         // Get the areaOpacity for the current Project
         const areaOpacity = opacities[row.TypeOfWork];
-  
+
         // Add the color, areaOpacity to the seriesMap
         seriesMap[name] = { color, areaOpacity };
       }
-  
+
       // Add the capital expenditure to the dataMap for each year
       for (let year = 2023; year <= 2040; year++) {
         // Check if the year is already in the dataMap
@@ -387,16 +405,15 @@ function App() {
           const capitalExpenditure = parseInt(
             row[expenditureField].replace(/[^0-9]/g, "")
           );
-          dataMap[year][name] =
-            (dataMap[year][name] || 0) + capitalExpenditure;
+          dataMap[year][name] = (dataMap[year][name] || 0) + capitalExpenditure;
         }
       }
     });
-  
+
     // Convert the dataMap into an array of rows
     const rows = Object.entries(dataMap).map(([year, rowData]) => {
       const row = [year];
-  
+
       // Iterate over the header row to add the data for each column in order
       headerRow.slice(1).forEach((name) => {
         const value = rowData[name] || 0;
@@ -406,19 +423,19 @@ function App() {
     });
     // Sort the rows by year
     rows.sort((a, b) => a[0] - b[0]);
-  
+
     // Add the header row to the beginning of the rows array
     rows.unshift(headerRow);
-  
+
     // Convert the seriesMap into an array of series options
     const series = headerRow.slice(1).map((name, index) => ({
       ...seriesMap[name],
       index,
     }));
-  
+
     return { rows, series };
   };
-  
+
   const convertDataForMultipleCharts = (convertedData) => {
     return convertedData.map((groupObj) => {
       const headerRow = ["Year"];
@@ -435,26 +452,26 @@ function App() {
         Firm: 0.5,
         Potential: 0.3,
       };
-  
+
       groupObj.rows.forEach((row) => {
         // Get the name of the row
         const name = `${row.Program} ${row.Project} ${row.TypeOfWork} ${row.OptionName}`;
-  
+
         // Check if the name is already in the header row
         if (!headerRow.includes(name)) {
           // If not, add it to the header row
           headerRow.push(name);
-  
+
           // Get the color for the current Program
           const color = colors[row.Program];
-  
+
           // Get the areaOpacity for the current Project
           const areaOpacity = opacities[row.TypeOfWork];
-  
+
           // Add the color, areaOpacity to the seriesMap
           seriesMap[name] = { color, areaOpacity };
         }
-  
+
         // Add the capital expenditure to the dataMap for each year
         for (let year = 2023; year <= 2040; year++) {
           // Check if the year is already in the dataMap
@@ -472,11 +489,11 @@ function App() {
           }
         }
       });
-  
+
       // Convert the dataMap into an array of rows
       const rows = Object.entries(dataMap).map(([year, rowData]) => {
         const row = [year];
-  
+
         // Iterate over the header row to add the data for each column in order
         headerRow.slice(1).forEach((name) => {
           const value = rowData[name] || 0;
@@ -486,16 +503,16 @@ function App() {
       });
       // Sort the rows by year
       rows.sort((a, b) => a[0] - b[0]);
-  
+
       // Add the header row to the beginning of the rows array
       rows.unshift(headerRow);
-  
+
       // Convert the seriesMap into an array of series options
       const series = headerRow.slice(1).map((name, index) => ({
         ...seriesMap[name],
         index,
       }));
-  
+
       return { occupiedArea: groupObj.OccupiedArea, rows, series };
     });
   };
@@ -546,7 +563,7 @@ function App() {
       // Function to draw the timeline charts
       function drawCharts() {
         convertedData.forEach((groupObj, i) => {
-          console.log(groupObj)
+          //console.log(groupObj);
           if (
             document.getElementById(
               groupObj.OccupiedArea + "chartGroup" + groupObj.rows.length
@@ -563,7 +580,11 @@ function App() {
           chartGroup.classList.add("flex-col");
           chartGroup.classList.add("items-start");
           chartGroup.classList.add("border");
-          chartGroup.classList.add("pt-5");
+          //chartGroup.classList.add("pt-5");
+          chartGroup.classList.add("shadow-lg");
+          chartGroup.classList.add("rounded-md");
+          chartGroup.classList.add("w-full");
+
           chartGroup.id =
             groupObj.OccupiedArea + "chartGroup" + groupObj.rows.length;
 
@@ -579,17 +600,71 @@ function App() {
           const rockpileId =
             groupObj.OccupiedArea + "rockpile" + groupObj.rows.length;
 
-          if (!document.getElementById(heading1Id)) {
-            const heading = document.createElement("h5");
-            heading.id = heading1Id;
-            heading.classList.add("text-2xl");
-            heading.classList.add("ml-[30px]");
-            groupObj.rows.forEach((row, rowIndex) => {
-              // You can use the variable rowIndex to access elements of the groupObj.rows array
-              heading.textContent = groupObj.rows[rowIndex].Program + " " + groupObj.OccupiedArea;
-            });
-            chartGroup.appendChild(heading);
+            if (!document.getElementById(heading1Id)) {
+              const heading = document.createElement("h5");
+              heading.id = heading1Id;
+              heading.classList.add("text-2xl");
+              heading.classList.add('font-bold')
+              heading.classList.add("ml-[30px]");
+              groupObj.rows.forEach((row, rowIndex) => {
+                  // You can use the variable rowIndex to access elements of the groupObj.rows array
+                  heading.textContent =
+                      groupObj.rows[rowIndex].Building + ": " + groupObj.OccupiedArea;
+              });
+          
+              const headingContainer = document.createElement("div");
+              headingContainer.id = 'heading-container'
+              headingContainer.classList.add('flex')
+              headingContainer.classList.add('flex-row')
+              headingContainer.classList.add('items-center')
+              headingContainer.classList.add('space-x-4')
+              headingContainer.classList.add("ml-[30px]");
+              headingContainer.classList.add("py-[15px]");
+          
+              // Create an icon button to toggle the visibility of the chartGroup children
+              const toggleButton = document.createElement("button");
+              const toggleIcon = document.createElement('span');
+              toggleIcon.classList.add('material-icons-two-tone');
+              toggleIcon.textContent = 'expand_more';
+              toggleButton.appendChild(toggleIcon);
+              toggleButton.classList.add('border')
+              toggleButton.classList.add('rounded-[50%]')
+
+              toggleButton.classList.add('flex')
+              toggleButton.classList.add('flex-col')
+              toggleButton.classList.add('items-center')
+              toggleButton.classList.add('justify-center')
+
+
+              toggleButton.addEventListener("click", () => {
+                  let isCollapsed = true;
+                  Array.from(chartGroup.children).forEach(child => {
+                      if (child !== headingContainer) {
+                          if (child.style.display === "none") {
+                              child.style.display = "block";
+                              isCollapsed = false;
+                          } else {
+                              child.style.display = "none";
+                          }
+                      }
+                  });
+                  if (isCollapsed) {
+                      toggleIcon.textContent = 'expand_more';
+                  } else {
+                      toggleIcon.textContent = 'expand_less';
+                  }
+              });
+          
+              // Create a new div element and append the heading and toggle button to it
+              headingContainer.appendChild(toggleButton);
+              headingContainer.appendChild(heading);
+
+          
+              // Append the new div to the chartGroup
+              chartGroup.appendChild(headingContainer);
           }
+          
+          
 
           if (!document.getElementById(rockpileId)) {
             const rockpileContainer = document.createElement("div");
@@ -616,11 +691,6 @@ function App() {
                 },
               },
               width: 1120,
-              chartArea: {
-                //left: 100,
-                //width: "75%",
-                //height: "80%"
-              },
               isStacked: true,
               lineWidth: 2,
               pointSize: 4,
@@ -631,21 +701,6 @@ function App() {
             rockpileChart.draw(rockpileDataTable, rockpileOptions);
           }
 
-          /*
-
-          if (!document.getElementById(heading2Id)) {
-            const heading = document.createElement("h5");
-            heading.id = heading2Id;
-            heading.classList.add("text-2xl");
-            heading.classList.add("ml-[30px]");
-            groupObj.rows.forEach((row, rowIndex) => {
-              // You can use the variable rowIndex to access elements of the groupObj.rows array
-              heading.textContent = groupObj.rows[rowIndex].Program + " " + groupObj.OccupiedArea;
-            });
-            chartGroup.appendChild(heading);
-          }
-
-          */
           if (!document.getElementById(containerId)) {
             const container = document.createElement("div");
             container.id = containerId;
@@ -664,11 +719,19 @@ function App() {
             dataTable.addColumn({ type: "date", id: "Start Date" });
             dataTable.addColumn({ type: "date", id: "End Date" });
             dataTable.addRows(
-              groupObj.rows.map((item) => [
-                item.Program.padStart(13, "."),
-                item.Program + " - " + item.Project + " - " + item.OptionName,
-                `<div class="flex flex-col items-start min-w-[200px] max-w-[500px] p-3 !z-[1000] bg-white h-full">
-            <p class="text-2xl font-bold"> ${item.Project} </p>
+              groupObj.rows.map((item, i) => [
+                i + item.Program.padStart(9, "."),
+                item.Program +
+                  " - " +
+                  item.Project +
+                  " - " +
+                  item.OptionName +
+                  " - " +
+                  item.TypeOfWork,
+                `<div class="flex flex-col items-start w-[500px] p-3 !z-[1000] bg-white h-full">
+            <p class="text-2xl font-bold"> ${
+              item.Program + " - " + item.Project + " - " + item.OptionName
+            } </p>
             <p><span class='font-bold'>Program:</span> ${item.Program}</p>
             <p><span class='font-bold'>Type of Work:</span> ${
               item.TypeOfWork
@@ -719,12 +782,16 @@ function App() {
                 //ticks: [0, 5, 10, 15]
               },
               timeline: {
-                rowLabelStyle: { fontSize: 12 },
+                rowLabelStyle: { fontSize: 12, fontName: "Roboto Mono" },
                 barLabelStyle: { fontSize: 12 },
               },
+
               colors: convertedData[i].rowColors,
+              //containerId === "Bay 25"
+              //? ["#8dc0ff", "#3366cc", "#6fa2ff", "#dc3912", "#3366cc"]
             };
-            // console.log(options.colors + " Row " + i);
+            console.log(convertedData[i]);
+            //console.log(options.colors + " Row " + i);
 
             // Set the height of the chart to fit its content
             var barLabelFontSize = 12;
@@ -740,16 +807,27 @@ function App() {
             var chartHeight = chartAreaHeight + axisHeight + whiteSpaceHeight;
             chartHeight = chartHeight > 200 ? 200 : chartHeight;
             if (dataTable.getNumberOfRows() == 1) {
-              chartHeight = 100
+              chartHeight = 100;
             }
 
             if (dataTable.getNumberOfRows() == 2) {
-              chartHeight = 150
+              chartHeight = 150;
+            }
+
+            if (dataTable.getNumberOfRows() == 5) {
+              chartHeight = 270;
             }
 
             container.style.height = chartHeight + "px";
             chart.draw(dataTable, options);
           }
+
+          Array.from(chartGroup.children).forEach(child => {
+            if (child.id !== 'heading-container') {
+                child.style.display = "none";
+            }
+        });
+
         });
       }
     }
@@ -759,16 +837,41 @@ function App() {
   const [isStacked, setIsStacked] = useState(true);
 
   return (
-    <div className="flex flex-col space-y-3">
+    <div className="flex flex-col space-y-3 ">
       <StickyLegend/>
-      <div className="bg-[#01478c] p-2 w-full flex flex-row items-center space-x-4">
-        <img src={LockheedMartinLogo} className="h-[50px] w-[50px]"/>
-        <h5 className="text-2xl text-white">Site Integration Model</h5>
+      <div className="bg-[#01478c] p-2 w-full flex flex-row items-center justify-between space-x-4">
+        <div className="flex flex-row space-x-2 items-center">
+          <img src={LockheedMartinLogo} className="h-[50px] w-[50px]" />
+          <h5 className="text-2xl text-white">Site Integration Model</h5>
+        </div>
+
+        <div className="flex flex-col items-end space-x-2 text-white">
+          <div className="flex flex-row space-x-2 items-center">
+            <Typography variant="body">Made by DASCE team -</Typography>
+            <a
+              href="https://docs.us.lmco.com/display/DASCE/DASCE+Home"
+              target="_blank"
+              className="underline"
+            >
+              Our Confluence
+            </a>
+          </div>
+
+          <Typography variant="body2" style={{ fontWeight: "" }}>
+            Digitally Accelerated Solutions through Citizen Engagement
+          </Typography>
+        </div>
       </div>
-      <Container className="">
-        <Typography variant="h3" style={{ fontWeight: "bold", fontFamily: "Inter Tight"  }} gutterBottom>
+      <Container className="space-y-2 py-10 ">
+        <div className="flex flex-col items-start">
+          <Typography variant="h2" gutterBottom>
+            Site Integration Model
+          </Typography>
+        </div>
+
+        {/* <Typography variant="h3" style={{ fontWeight: "bold", fontFamily: "Inter Tight"  }} gutterBottom>
           Rock Pile Chart
-        </Typography>
+        </Typography> */}
         {/* Add a ToggleButtonGroup component to set the isStacked option */}
         <ToggleButtonGroup
           exclusive
@@ -783,16 +886,26 @@ function App() {
           <RockPile data={chartData} isStacked={isStacked} series={series} />
         </div>
         <div id="gantt-group" className="relative">
-          <Typography variant="h3" style={{ fontWeight: "bold", fontFamily: "Inter Tight" }}>
+          {/*
+            <Typography variant="h3" style={{ fontWeight: "bold", fontFamily: "Inter Tight" }}>
             Gantt Chart
           </Typography>
+            */}
           <div
             id="gantt-renderer"
             className="flex flex-col items-start space-y-3"
           ></div>
         </div>
 
-        <Typography variant="h3" style={{ fontWeight: "bold", fontFamily: "Inter Tight"  }} gutterBottom>
+        <Typography
+          variant="h3"
+          style={{
+            fontWeight: "bold",
+            fontFamily: "Inter Tight",
+            marginTop: "100px",
+          }}
+          gutterBottom
+        >
           Editable Data Table
         </Typography>
         <EditableDataTable
