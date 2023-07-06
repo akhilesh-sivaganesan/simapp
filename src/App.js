@@ -305,8 +305,8 @@ function App() {
 
     // Define the adjustment amount for each TypeOfWork
     const adjustments = {
-      LRP: 0,
-      Firm: +60,
+      Firm: 0,
+      LRP: 45,
       Potential: +90,
     };
 
@@ -369,8 +369,8 @@ function App() {
       P209: "#990099",
     };
     const opacities = {
-      LRP: 0.8,
-      Firm: 0.5,
+      Firm: 0.8,
+      LRP: 0.5,
       Potential: 0.3,
     };
 
@@ -448,8 +448,8 @@ function App() {
         P209: "#990099",
       };
       const opacities = {
-        LRP: 0.8,
-        Firm: 0.5,
+        LRP: 0.5,
+        Firm: 0.8,
         Potential: 0.3,
       };
 
@@ -584,7 +584,7 @@ function App() {
           chartGroup.classList.add("shadow-lg");
           chartGroup.classList.add("rounded-md");
           chartGroup.classList.add("w-full");
-          chartGroup.classList.add("overflow-hidden");
+          //chartGroup.classList.add("overflow-hidden");
 
           chartGroup.id =
             groupObj.OccupiedArea + "chartGroup" + groupObj.rows.length;
@@ -687,6 +687,8 @@ function App() {
                   fontSize: 13,
                 },
               },
+              //hAxis: { title: 'Year'},
+              //vAxis: { title: "Total Capital Expenditure ($)"},
               width: 1120,
               isStacked: true,
               lineWidth: 2,
@@ -846,7 +848,7 @@ function App() {
           <div className="flex flex-row space-x-2 items-center">
             <Typography variant="body">Made by DASCE team -</Typography>
             <a
-              href="https://docs.us.lmco.com/display/DASCE/DASCE+Home"
+              href="https://docs.us.lmco.com/x/927sNQ"
               target="_blank"
               className="underline"
             >

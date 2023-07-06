@@ -261,6 +261,7 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
   );
 
   const handleSaveRowEdits = async ({ exitEditingMode, row, values }) => {
+    console.log('asjdflajsdf')
     if (!Object.keys(validationErrors).length) {
       newData[row.index] = values;
       //send/receive api updates here, then refetch or update local table data for re-render
@@ -307,7 +308,8 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
       enableColumnOrdering
       enableRowSelection
       // enableRowActions
-      //editingMode="modal" //default
+      enableEditing={true}
+      editingMode="modal" //default
       enableFacetedValues
       initialState={{
         density: "compact",

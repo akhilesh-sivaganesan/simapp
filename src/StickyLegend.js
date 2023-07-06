@@ -8,8 +8,8 @@ const StickyLegend = ({ props }) => {
     { name: "P209", color: "#990099" },
   ];
   const opacities = {
-    LRP: 0.8,
-    Firm: 0.5,
+    Firm: 0.8,
+    LRP: 0.5,
     Potential: 0.3,
   };
   return (
