@@ -1,8 +1,6 @@
-import React, { useState } from "react";
-import { Box, Typography } from "@mui/material";
+import React from "react";
 
 const StickyLegend = ({ props }) => {
-  const [showLegend, setShowLegend] = useState(false);
   const data = [
     { name: "LMXT", color: "#109618" },
     { name: "F-22", color: "#3366CC" },
@@ -15,59 +13,27 @@ const StickyLegend = ({ props }) => {
     Potential: 0.3,
   };
   return (
-    <Box
-      sx={{
-        position: "fixed",
-        top: 100,
-        right: showLegend ? 0 : -180,
-        height: "75vh",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "flex-end",
-        transition: "all 0.3s",
-      }}
-      onMouseEnter={() => setShowLegend(true)}
-      onMouseLeave={() => setShowLegend(true)}
-    >
-      <Box
-        sx={{
-          width: 200,
-          height: "100%",
-          bgcolor: showLegend ? "#fdfdfd" : "#01478c",
-          transition: "all 0.3s",
-          p: 2,
-          boxShadow: 1,
-          borderRadius: "12px 0px 0px 12px",
-        }}
-      >
-        <Typography variant="h6" sx={{ fontWeight: "bold", mb: 2, textAlign: "center" }}>
-          Legend
-        </Typography>
+    <div className="fixed top-24 right-0 flex flex-col items-end">
+      <div className="w-48 h-full p-4 shadow rounded-l-lg bg-gray-100 flex flex-col justify-center">
+        <h6 className="font-bold text-3xl mb-2 text-center">Legend</h6>
         {data.map((item) => (
-          <Box key={item.name} sx={{ display: "flex", flexDirection: "column", alignItems: "center", my: 1 }}>
-            <Typography variant="body2" sx={{ fontWeight: "bold", mb: 1 }}>
-              {item.name}
-            </Typography>
-            <Box sx={{ display: "flex", flexDirection: "row" }}>
+          <div key={item.name} className="flex flex-col items-center my-1">
+            <p className="font-bold mb-1">{item.name}</p>
+            <div className="flex flex-row">
               {Object.entries(opacities).map(([key, value]) => (
-                <Box key={key} sx={{ display: "flex", flexDirection: "column", alignItems: "center", mx: 1 }}>
-                  <Box
-                    sx={{
-                      width: 45,
-                      height: 45,
-                      border: "1px solid black",
-                      bgcolor: item.color,
-                      opacity: value,
-                    }}
-                  ></Box>
-                  <Typography variant="caption">{key}</Typography>
-                </Box>
+                <div key={key} className="flex flex-col items-center mx-1">
+                  <div
+                    className="w-11 h-11 border border-black"
+                    style={{ backgroundColor: item.color, opacity: value }}
+                  ></div>
+                  <span className="text-xs">{key}</span>
+                </div>
               ))}
-            </Box>
-          </Box>
+            </div>
+          </div>
         ))}
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 };
 
