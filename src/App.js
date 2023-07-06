@@ -814,6 +814,10 @@ function App() {
               chartHeight = 150;
             }
 
+            if (dataTable.getNumberOfRows() == 4) {
+              chartHeight = 220;
+            }
+
             if (dataTable.getNumberOfRows() == 5) {
               chartHeight = 270;
             }

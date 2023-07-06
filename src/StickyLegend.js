@@ -13,7 +13,7 @@ const StickyLegend = ({ props }) => {
     Potential: 0.3,
   };
   return (
-    <div className="fixed top-24 right-0 flex flex-col items-end">
+    <div className="fixed top-24 right-0 flex flex-col items-end z-[1000]">
       <div className="w-48 h-full p-4 shadow rounded-l-lg bg-gray-100 flex flex-col justify-center">
         <h6 className="font-bold text-3xl mb-2 text-center">Legend</h6>
         {data.map((item) => (
