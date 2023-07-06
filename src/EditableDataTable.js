@@ -12,9 +12,9 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
-        muiTableHeadCellFilterTextFieldProps: { placeholder: 'Program Filter' },
+        muiTableHeadCellFilterTextFieldProps: { placeholder: "Program Filter" },
         size: 170,
-        filterVariant: 'multi-select',
+        filterVariant: "multi-select",
       },
       {
         accessorKey: "Project",
@@ -23,8 +23,8 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
           ...getCommonEditTextFieldProps(cell),
         }),
         size: 170,
-        filterVariant: 'multi-select',
-        muiTableHeadCellFilterTextFieldProps: { placeholder: 'Project Filter' },
+        filterVariant: "multi-select",
+        muiTableHeadCellFilterTextFieldProps: { placeholder: "Project Filter" },
       },
       {
         accessorKey: "TypeOfWork",
@@ -32,9 +32,9 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
-        size: 173, 
-        filterVariant: 'multi-select',
-        muiTableHeadCellFilterTextFieldProps: { placeholder: 'Type of Work' },
+        size: 173,
+        filterVariant: "multi-select",
+        muiTableHeadCellFilterTextFieldProps: { placeholder: "Type of Work" },
       },
       {
         accessorKey: "OptionName",
@@ -43,8 +43,8 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
           ...getCommonEditTextFieldProps(cell),
         }),
         size: 150,
-        filterVariant: 'multi-select',
-        muiTableHeadCellFilterTextFieldProps: { placeholder: 'Option Filter' },
+        filterVariant: "multi-select",
+        muiTableHeadCellFilterTextFieldProps: { placeholder: "Option Filter" },
       },
       {
         accessorKey: "Building",
@@ -53,8 +53,10 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
           ...getCommonEditTextFieldProps(cell),
         }),
         size: 160,
-        filterVariant: 'multi-select',
-        muiTableHeadCellFilterTextFieldProps: { placeholder: 'Building Filter' },
+        filterVariant: "multi-select",
+        muiTableHeadCellFilterTextFieldProps: {
+          placeholder: "Building Filter",
+        },
       },
       {
         accessorKey: "OccupiedArea",
@@ -63,36 +65,36 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
           ...getCommonEditTextFieldProps(cell),
         }),
         size: 180,
-        filterVariant: 'multi-select',
-        muiTableHeadCellFilterTextFieldProps: { placeholder: 'Area Filter' },
+        filterVariant: "multi-select",
+        muiTableHeadCellFilterTextFieldProps: { placeholder: "Area Filter" },
       },
-      {
-        accessorKey: "IdentifierKey",
-        header: "Identifier Key",
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
-        muiTableHeadCellFilterTextFieldProps: { placeholder: 'Key Filter' },
-      },
-      {
-        accessorKey: "Flag",
-        header: "Flag",
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
-        size: 120,
-        filterVariant: 'multi-select',
-        muiTableHeadCellFilterTextFieldProps: { placeholder: 'Flag Filter' },
-      },
-      {
-        accessorKey: "OptionDetails",
-        header: "Option Details",
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
-        size: 200,
-        muiTableHeadCellFilterTextFieldProps: { placeholder: 'Option Filter' },
-      },
+      // {
+      //   accessorKey: "IdentifierKey",
+      //   header: "Identifier Key",
+      //   muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+      //     ...getCommonEditTextFieldProps(cell),
+      //   }),
+      //   muiTableHeadCellFilterTextFieldProps: { placeholder: 'Key Filter' },
+      // },
+      // {
+      //   accessorKey: "Flag",
+      //   header: "Flag",
+      //   muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+      //     ...getCommonEditTextFieldProps(cell),
+      //   }),
+      //   size: 120,
+      //   filterVariant: 'multi-select',
+      //   muiTableHeadCellFilterTextFieldProps: { placeholder: 'Flag Filter' },
+      // },
+      // {
+      //   accessorKey: "OptionDetails",
+      //   header: "Option Details",
+      //   muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+      //     ...getCommonEditTextFieldProps(cell),
+      //   }),
+      //   size: 200,
+      //   muiTableHeadCellFilterTextFieldProps: { placeholder: 'Option Filter' },
+      // },
       {
         accessorKey: "DateStart",
         header: "Date Start",
@@ -100,7 +102,7 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
           ...getCommonEditTextFieldProps(cell),
         }),
         size: 140,
-        muiTableHeadCellFilterTextFieldProps: { placeholder: 'Start Date' },
+        muiTableHeadCellFilterTextFieldProps: { placeholder: "Start Date" },
       },
       {
         accessorKey: "DateEnd",
@@ -109,35 +111,90 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
           ...getCommonEditTextFieldProps(cell),
         }),
         size: 130,
-        muiTableHeadCellFilterTextFieldProps: { placeholder: 'End Date' },
+        muiTableHeadCellFilterTextFieldProps: { placeholder: "End Date" },
       },
+      // {
+      //   accessorKey: "Maturity",
+      //   header: "Maturity",
+      //   muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+      //     ...getCommonEditTextFieldProps(cell),
+      //   }),
+      //   size: 150,
+      //   muiTableHeadCellFilterTextFieldProps: { placeholder: 'Maturity' },
+      // },
       {
-        accessorKey: "Maturity",
-        header: "Maturity",
-        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-          ...getCommonEditTextFieldProps(cell),
-        }),
-        size: 150,
-        muiTableHeadCellFilterTextFieldProps: { placeholder: 'Maturity' },
-      },
-      {
-        accessorKey: "CapitalExpenditure",
-        header: "Capital Expenditure",
+        accessorKey: "TotalCapitalExpenditure",
+        header: "Total Capital Expenditure",
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
         size: 200,
-        muiTableHeadCellFilterTextFieldProps: { placeholder: 'Capital Filter' },
+        muiTableHeadCellFilterTextFieldProps: { placeholder: "Capital Filter" },
       },
       {
-        accessorKey: "DRDBKey",
-        header: "DRDB Key",
+        accessorKey: "Expenditure2023",
+        header: "Expenditure 2023",
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
-        size: 160,
-        muiTableHeadCellFilterTextFieldProps: { placeholder: 'DRDB Filter' },
+        size: 200,
+        muiTableHeadCellFilterTextFieldProps: {
+          placeholder: "2023 Capital Filter",
+        },
       },
+      {
+        accessorKey: "Expenditure2024",
+        header: "Expenditure 2024",
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+        size: 200,
+        muiTableHeadCellFilterTextFieldProps: {
+          placeholder: "2024 Capital Filter",
+        },
+      },
+      {
+        accessorKey: "Expenditure2025",
+        header: "Expenditure 2025",
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+        size: 200,
+        muiTableHeadCellFilterTextFieldProps: {
+          placeholder: "2025 Capital Filter",
+        },
+      },
+      {
+        accessorKey: "Expenditure2026",
+        header: "Expenditure 2026",
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+        size: 200,
+        muiTableHeadCellFilterTextFieldProps: {
+          placeholder: "2026 Capital Filter",
+        },
+      },
+      {
+        accessorKey: "Expenditure2027",
+        header: "Expenditure 2027",
+        muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+          ...getCommonEditTextFieldProps(cell),
+        }),
+        size: 200,
+        muiTableHeadCellFilterTextFieldProps: {
+          placeholder: "2027 Capital Filter",
+        },
+      },
+      // {
+      //   accessorKey: "DRDBKey",
+      //   header: "DRDB Key",
+      //   muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
+      //     ...getCommonEditTextFieldProps(cell),
+      //   }),
+      //   size: 160,
+      //   muiTableHeadCellFilterTextFieldProps: { placeholder: 'DRDB Filter' },
+      // },
       {
         accessorKey: "SME",
         header: "SME",
@@ -145,8 +202,8 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
           ...getCommonEditTextFieldProps(cell),
         }),
         size: 150,
-        filterVariant: 'multi-select',
-        muiTableHeadCellFilterTextFieldProps: { placeholder: 'SME Filter' },
+        filterVariant: "multi-select",
+        muiTableHeadCellFilterTextFieldProps: { placeholder: "SME Filter" },
       },
       {
         accessorKey: "Notes",
@@ -154,7 +211,7 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
         }),
-        muiTableHeadCellFilterTextFieldProps: { placeholder: 'Notes' },
+        muiTableHeadCellFilterTextFieldProps: { placeholder: "Notes" },
       },
       {
         accessorKey: "SpaceCharacterization",
@@ -163,8 +220,8 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
           ...getCommonEditTextFieldProps(cell),
         }),
         size: 200,
-        filterVariant: 'multi-select',
-        muiTableHeadCellFilterTextFieldProps: { placeholder: 'Space Filter' },
+        filterVariant: "multi-select",
+        muiTableHeadCellFilterTextFieldProps: { placeholder: "Space Filter" },
       },
     ],
     []
@@ -208,8 +265,8 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
       newData[row.index] = values;
       //send/receive api updates here, then refetch or update local table data for re-render
       setNewData([...newData]);
-      setData([...newData])
-      setFilteredData([...newData])
+      setData([...newData]);
+      setFilteredData([...newData]);
       exitEditingMode(); //required to exit editing mode and close modal
     }
   };
@@ -221,14 +278,14 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
   const handleExportRows = (rows) => {
     setFilteredData(rows.map((row) => row.original));
     setNewData(rows.map((row) => row.original));
-    console.log(rows)
+    console.log(rows);
   };
 
   const resetData = () => {
-    setFilteredData(data)
-    setNewData(data)
+    setFilteredData(data);
+    setNewData(data);
     window.location.reload();
-  }
+  };
 
   //optionally, you can manage the row selection state yourself
   const [rowSelection, setRowSelection] = useState({});
@@ -243,18 +300,28 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
       columns={columns}
       data={data}
       defaultColumn={{
-        minSize: 20, 
-        maxSize: 900, 
+        minSize: 20,
+        maxSize: 900,
       }}
       enableColumnResizing
       enableColumnOrdering
       enableRowSelection
-      enableRowActions
-      enableEditing
-      enableClickToCopy 
-      editingMode="modal" //default
+      // enableRowActions
+      //editingMode="modal" //default
       enableFacetedValues
-      initialState={{ density: 'compact', showColumnFilters: true }}
+      initialState={{
+        density: "compact",
+        showColumnFilters: true,
+        columnVisibility: {
+          Project: false,
+          TypeOfWork: false,
+          Expenditure2023: false,
+          Expenditure2024: false,
+          Expenditure2025: false,
+          Expenditure2026: false,
+          Expenditure2027: false,
+        },
+      }}
       onEditingRowSave={handleSaveRowEdits}
       onEditingRowCancel={handleCancelRowEdits}
       onRowSelectionChange={setRowSelection} //connect internal row selection state to your own
@@ -298,8 +365,8 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
       muiTableBodyProps={{
         sx: {
           //stripe the rows, make odd rows a darker color
-          '& tr:nth-of-type(odd)': {
-            backgroundColor: '#fafafa',
+          "& tr:nth-of-type(odd)": {
+            backgroundColor: "#fafafa",
           },
         },
       }}
