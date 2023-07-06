@@ -4,5 +4,5 @@ applications:
     image: lmregistry.us.lmco.com/lmc.aero.prowat/sumit_app
   disk_quota: 4G
   routes:
-    - route: sumit_app.apps.pgw2.us.lmco.com
+    - route: sim.apps.pgw2.us.lmco.com
   timeout: 600
