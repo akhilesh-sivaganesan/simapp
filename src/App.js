@@ -334,13 +334,14 @@ function App() {
         // Create an array of color codes for each row
         const rowColors = rows.map((row) => {
           // Get the base color for the current Program
-          const baseColor = colors[row.Program];
 
-          // Get the adjustment amount for the current TypeOfWork
-          const adjustment = adjustments[row.TypeOfWork];
-          // Adjust the base color to create a new color
-          const color = adjustColor(baseColor, adjustment);
-          return color;
+          const baseColor = colors[row.Program];
+          if (baseColor) {
+            const adjustment = adjustments[row.TypeOfWork];
+            // Adjust the base color to create a new color
+            const color = adjustColor(baseColor, adjustment);
+            return color;
+          }
         });
 
         return {
@@ -600,71 +601,67 @@ function App() {
           const rockpileId =
             groupObj.OccupiedArea + "rockpile" + groupObj.rows.length;
 
-            if (!document.getElementById(heading1Id)) {
-              const heading = document.createElement("h5");
-              heading.id = heading1Id;
-              heading.classList.add("text-2xl");
-              heading.classList.add('font-bold')
-              heading.classList.add("ml-[30px]");
-              groupObj.rows.forEach((row, rowIndex) => {
-                  // You can use the variable rowIndex to access elements of the groupObj.rows array
-                  heading.textContent =
-                      groupObj.rows[rowIndex].Building + ": " + groupObj.OccupiedArea;
-              });
-          
-              const headingContainer = document.createElement("div");
-              headingContainer.id = 'heading-container'
-              headingContainer.classList.add('flex')
-              headingContainer.classList.add('flex-row')
-              headingContainer.classList.add('items-center')
-              headingContainer.classList.add('space-x-4')
-              headingContainer.classList.add("ml-[30px]");
-              headingContainer.classList.add("py-[15px]");
-          
-              // Create an icon button to toggle the visibility of the chartGroup children
-              const toggleButton = document.createElement("button");
-              const toggleIcon = document.createElement('span');
-              toggleIcon.classList.add('material-icons-two-tone');
-              toggleIcon.textContent = 'expand_more';
-              toggleButton.appendChild(toggleIcon);
-              toggleButton.classList.add('border')
-              toggleButton.classList.add('rounded-[50%]')
+          if (!document.getElementById(heading1Id)) {
+            const heading = document.createElement("h5");
+            heading.id = heading1Id;
+            heading.classList.add("text-2xl");
+            heading.classList.add("font-bold");
+            heading.classList.add("ml-[30px]");
+            groupObj.rows.forEach((row, rowIndex) => {
+              // You can use the variable rowIndex to access elements of the groupObj.rows array
+              heading.textContent =
+                groupObj.rows[rowIndex].Building + ": " + groupObj.OccupiedArea;
+            });
 
-              toggleButton.classList.add('flex')
-              toggleButton.classList.add('flex-col')
-              toggleButton.classList.add('items-center')
-              toggleButton.classList.add('justify-center')
+            const headingContainer = document.createElement("div");
+            headingContainer.id = "heading-container";
+            headingContainer.classList.add("flex");
+            headingContainer.classList.add("flex-row");
+            headingContainer.classList.add("items-center");
+            headingContainer.classList.add("space-x-4");
+            headingContainer.classList.add("ml-[30px]");
+            headingContainer.classList.add("py-[15px]");
 
+            // Create an icon button to toggle the visibility of the chartGroup children
+            const toggleButton = document.createElement("button");
+            const toggleIcon = document.createElement("span");
+            toggleIcon.classList.add("material-icons-two-tone");
+            toggleIcon.textContent = "expand_more";
+            toggleButton.appendChild(toggleIcon);
+            toggleButton.classList.add("border");
+            toggleButton.classList.add("rounded-[50%]");
 
-              toggleButton.addEventListener("click", () => {
-                  let isCollapsed = true;
-                  Array.from(chartGroup.children).forEach(child => {
-                      if (child !== headingContainer) {
-                          if (child.style.display === "none") {
-                              child.style.display = "block";
-                              isCollapsed = false;
-                          } else {
-                              child.style.display = "none";
-                          }
-                      }
-                  });
-                  if (isCollapsed) {
-                      toggleIcon.textContent = 'expand_more';
+            toggleButton.classList.add("flex");
+            toggleButton.classList.add("flex-col");
+            toggleButton.classList.add("items-center");
+            toggleButton.classList.add("justify-center");
+
+            toggleButton.addEventListener("click", () => {
+              let isCollapsed = true;
+              Array.from(chartGroup.children).forEach((child) => {
+                if (child !== headingContainer) {
+                  if (child.style.display === "none") {
+                    child.style.display = "block";
+                    isCollapsed = false;
                   } else {
-                      toggleIcon.textContent = 'expand_less';
+                    child.style.display = "none";
                   }
+                }
               });
-          
-              // Create a new div element and append the heading and toggle button to it
-              headingContainer.appendChild(toggleButton);
-              headingContainer.appendChild(heading);
+              if (isCollapsed) {
+                toggleIcon.textContent = "expand_more";
+              } else {
+                toggleIcon.textContent = "expand_less";
+              }
+            });
 
-          
-              // Append the new div to the chartGroup
-              chartGroup.appendChild(headingContainer);
+            // Create a new div element and append the heading and toggle button to it
+            headingContainer.appendChild(toggleButton);
+            headingContainer.appendChild(heading);
+
+            // Append the new div to the chartGroup
+            chartGroup.appendChild(headingContainer);
           }
-          
-          
 
           if (!document.getElementById(rockpileId)) {
             const rockpileContainer = document.createElement("div");
@@ -790,7 +787,7 @@ function App() {
               //containerId === "Bay 25"
               //? ["#8dc0ff", "#3366cc", "#6fa2ff", "#dc3912", "#3366cc"]
             };
-            console.log(convertedData[i]);
+            //console.log(convertedData[i]);
             //console.log(options.colors + " Row " + i);
 
             // Set the height of the chart to fit its content
@@ -822,12 +819,11 @@ function App() {
             chart.draw(dataTable, options);
           }
 
-          Array.from(chartGroup.children).forEach(child => {
-            if (child.id !== 'heading-container') {
-                child.style.display = "none";
+          Array.from(chartGroup.children).forEach((child) => {
+            if (child.id !== "heading-container") {
+              child.style.display = "none";
             }
-        });
-
+          });
         });
       }
     }
@@ -838,7 +834,7 @@ function App() {
 
   return (
     <div className="flex flex-col space-y-3 ">
-      <StickyLegend/>
+      <StickyLegend />
       <div className="bg-[#01478c] p-2 w-full flex flex-row items-center justify-between space-x-4">
         <div className="flex flex-row space-x-2 items-center">
           <img src={LockheedMartinLogo} className="h-[50px] w-[50px]" />
