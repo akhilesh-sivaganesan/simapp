@@ -8,6 +8,7 @@ import {
 import EditableDataTable from "./EditableDataTable";
 import RockPile from "./RockPile";
 import { useTheme } from "@mui/material/styles";
+import LockheedMartinLogo from "./assets/lockheed.jpg";
 
 function App() {
   // Using Material UI theme
@@ -544,6 +545,7 @@ function App() {
       // Function to draw the timeline charts
       function drawCharts() {
         convertedData.forEach((groupObj, i) => {
+          console.log(groupObj)
           if (
             document.getElementById(
               groupObj.OccupiedArea + "chartGroup" + groupObj.rows.length
@@ -606,8 +608,8 @@ function App() {
             const rockpileOptions = {
               // Define options for the rockpile chart
               hAxis: {
-                minValue: new Date(2023, 0, 1),
-                maxValue: new Date(2040, 11, 31),
+                minValue: new Date(minStartYear, 0, 1),
+                maxValue: new Date(maxEndYear, 11, 31),
                 textStyle: {
                   fontSize: 13,
                 },
@@ -627,6 +629,8 @@ function App() {
             rockpileChart.draw(rockpileDataTable, rockpileOptions);
           }
 
+          /*
+
           if (!document.getElementById(heading2Id)) {
             const heading = document.createElement("h5");
             heading.id = heading2Id;
@@ -638,6 +642,8 @@ function App() {
             });
             chartGroup.appendChild(heading);
           }
+
+          */
           if (!document.getElementById(containerId)) {
             const container = document.createElement("div");
             container.id = containerId;
@@ -706,8 +712,8 @@ function App() {
                 //left: 100
               },
               hAxis: {
-                minValue: new Date(2023, 0, 1),
-                maxValue: new Date(2040, 11, 31),
+                minValue: new Date(minStartYear, 0, 1),
+                maxValue: new Date(maxEndYear, 11, 31),
                 //ticks: [0, 5, 10, 15]
               },
               timeline: {
@@ -731,6 +737,13 @@ function App() {
             var whiteSpaceHeight = 27;
             var chartHeight = chartAreaHeight + axisHeight + whiteSpaceHeight;
             chartHeight = chartHeight > 200 ? 200 : chartHeight;
+            if (dataTable.getNumberOfRows() == 1) {
+              chartHeight = 100
+            }
+
+            if (dataTable.getNumberOfRows() == 2) {
+              chartHeight = 150
+            }
 
             container.style.height = chartHeight + "px";
             chart.draw(dataTable, options);
@@ -745,8 +758,12 @@ function App() {
 
   return (
     <div className="flex flex-col space-y-3">
+      <div className="bg-[#01478c] p-2 w-full flex flex-row items-center space-x-4">
+        <img src={LockheedMartinLogo} className="h-[50px] w-[50px]"/>
+        <h5 className="text-2xl text-white">Site Integration Model</h5>
+      </div>
       <Container className="">
-        <Typography variant="h3" style={{ fontWeight: "bold" }} gutterBottom>
+        <Typography variant="h3" style={{ fontWeight: "bold", fontFamily: "Inter Tight"  }} gutterBottom>
           Rock Pile Chart
         </Typography>
         {/* Add a ToggleButtonGroup component to set the isStacked option */}
@@ -763,7 +780,7 @@ function App() {
           <RockPile data={chartData} isStacked={isStacked} series={series} />
         </div>
         <div id="gantt-group" className="relative">
-          <Typography variant="h3" style={{ fontWeight: "bold" }}>
+          <Typography variant="h3" style={{ fontWeight: "bold", fontFamily: "Inter Tight" }}>
             Gantt Chart
           </Typography>
           <div
@@ -772,7 +789,7 @@ function App() {
           ></div>
         </div>
 
-        <Typography variant="h3" style={{ fontWeight: "bold" }} gutterBottom>
+        <Typography variant="h3" style={{ fontWeight: "bold", fontFamily: "Inter Tight"  }} gutterBottom>
           Editable Data Table
         </Typography>
         <EditableDataTable

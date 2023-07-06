@@ -6,6 +6,6 @@
 @layer base {
     html {
         scroll-behavior: smooth;
-        font-family: 'Inter Tight', sans-serif;
+        font-family: 'Inter Tight' !important;
     }
 }
