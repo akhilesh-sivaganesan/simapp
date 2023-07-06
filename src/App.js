@@ -312,6 +312,24 @@ function App() {
     // Convert the grouped data into an array of new JSON objects
     const convertedData = Object.entries(groupedData).map(
       ([occupiedArea, rows]) => {
+        //Implement sort function here
+        /*
+        rows.sort((a, b) => {
+          if (a.DateStart < b.DateStart) return -1;
+          if (a.DateStart > b.DateStart) return 1;
+          if (a.DateEnd < b.DateEnd) return -1;
+          if (a.DateEnd > b.DateEnd) return 1;
+          if (a.Program < b.Program) return -1;
+          if (a.Program > b.Program) return 1;
+          if (a.Project < b.Project) return -1;
+          if (a.Project > b.Project) return 1;
+          if (a.OptionName < b.OptionName) return -1;
+          if (a.OptionName > b.OptionName) return 1;
+          if (a.TypeOfWork < b.TypeOfWork) return -1;
+          if (a.TypeOfWork > b.TypeOfWork) return 1;
+          return 0;
+      });
+      */
         // Create an array of color codes for each row
         const rowColors = rows.map((row) => {
           // Get the base color for the current Program
@@ -561,10 +579,10 @@ function App() {
           chartGroup.classList.add("flex-col");
           chartGroup.classList.add("items-start");
           chartGroup.classList.add("border");
-          chartGroup.classList.add("pt-5");
+          //chartGroup.classList.add("pt-5");
           chartGroup.classList.add("shadow-lg");
           chartGroup.classList.add("rounded-md");
-
+          chartGroup.classList.add("w-full");
 
           chartGroup.id =
             groupObj.OccupiedArea + "chartGroup" + groupObj.rows.length;
@@ -581,18 +599,71 @@ function App() {
           const rockpileId =
             groupObj.OccupiedArea + "rockpile" + groupObj.rows.length;
 
-          if (!document.getElementById(heading1Id)) {
-            const heading = document.createElement("h5");
-            heading.id = heading1Id;
-            heading.classList.add("text-2xl");
-            heading.classList.add("ml-[30px]");
-            groupObj.rows.forEach((row, rowIndex) => {
-              // You can use the variable rowIndex to access elements of the groupObj.rows array
-              heading.textContent =
-                groupObj.rows[rowIndex].Program + " " + groupObj.OccupiedArea;
-            });
-            chartGroup.appendChild(heading);
+            if (!document.getElementById(heading1Id)) {
+              const heading = document.createElement("h5");
+              heading.id = heading1Id;
+              heading.classList.add("text-2xl");
+              heading.classList.add('font-bold')
+              heading.classList.add("ml-[30px]");
+              groupObj.rows.forEach((row, rowIndex) => {
+                  // You can use the variable rowIndex to access elements of the groupObj.rows array
+                  heading.textContent =
+                      groupObj.rows[rowIndex].Building + ": " + groupObj.OccupiedArea;
+              });
+          
+              const headingContainer = document.createElement("div");
+              headingContainer.id = 'heading-container'
+              headingContainer.classList.add('flex')
+              headingContainer.classList.add('flex-row')
+              headingContainer.classList.add('items-center')
+              headingContainer.classList.add('space-x-4')
+              headingContainer.classList.add("ml-[30px]");
+              headingContainer.classList.add("py-[15px]");
+          
+              // Create an icon button to toggle the visibility of the chartGroup children
+              const toggleButton = document.createElement("button");
+              const toggleIcon = document.createElement('span');
+              toggleIcon.classList.add('material-icons-two-tone');
+              toggleIcon.textContent = 'expand_more';
+              toggleButton.appendChild(toggleIcon);
+              toggleButton.classList.add('border')
+              toggleButton.classList.add('rounded-[50%]')
+
+              toggleButton.classList.add('flex')
+              toggleButton.classList.add('flex-col')
+              toggleButton.classList.add('items-center')
+              toggleButton.classList.add('justify-center')
+
+
+              toggleButton.addEventListener("click", () => {
+                  let isCollapsed = true;
+                  Array.from(chartGroup.children).forEach(child => {
+                      if (child !== headingContainer) {
+                          if (child.style.display === "none") {
+                              child.style.display = "block";
+                              isCollapsed = false;
+                          } else {
+                              child.style.display = "none";
+                          }
+                      }
+                  });
+                  if (isCollapsed) {
+                      toggleIcon.textContent = 'expand_more';
+                  } else {
+                      toggleIcon.textContent = 'expand_less';
+                  }
+              });
+          
+              // Create a new div element and append the heading and toggle button to it
+              headingContainer.appendChild(toggleButton);
+              headingContainer.appendChild(heading);
+
+          
+              // Append the new div to the chartGroup
+              chartGroup.appendChild(headingContainer);
           }
+          
+          
 
           if (!document.getElementById(rockpileId)) {
             const rockpileContainer = document.createElement("div");
@@ -628,7 +699,6 @@ function App() {
             rockpileChart.draw(rockpileDataTable, rockpileOptions);
           }
 
-         
           if (!document.getElementById(containerId)) {
             const container = document.createElement("div");
             container.id = containerId;
@@ -647,9 +717,15 @@ function App() {
             dataTable.addColumn({ type: "date", id: "Start Date" });
             dataTable.addColumn({ type: "date", id: "End Date" });
             dataTable.addRows(
-              groupObj.rows.map((item) => [
-                item.Program.padStart(13, "."),
-                item.Program + " - " + item.Project + " - " + item.OptionName,
+              groupObj.rows.map((item, i) => [
+                i + item.Program.padStart(9, "."),
+                item.Program +
+                  " - " +
+                  item.Project +
+                  " - " +
+                  item.OptionName +
+                  " - " +
+                  item.TypeOfWork,
                 `<div class="flex flex-col items-start w-[500px] p-3 !z-[1000] bg-white h-full">
             <p class="text-2xl font-bold"> ${
               item.Program + " - " + item.Project + " - " + item.OptionName
@@ -704,12 +780,16 @@ function App() {
                 //ticks: [0, 5, 10, 15]
               },
               timeline: {
-                rowLabelStyle: { fontSize: 12 },
+                rowLabelStyle: { fontSize: 12, fontName: "Roboto Mono" },
                 barLabelStyle: { fontSize: 12 },
               },
+
               colors: convertedData[i].rowColors,
+              //containerId === "Bay 25"
+              //? ["#8dc0ff", "#3366cc", "#6fa2ff", "#dc3912", "#3366cc"]
             };
-            // console.log(options.colors + " Row " + i);
+            console.log(convertedData[i]);
+            //console.log(options.colors + " Row " + i);
 
             // Set the height of the chart to fit its content
             var barLabelFontSize = 12;
@@ -732,9 +812,20 @@ function App() {
               chartHeight = 150;
             }
 
+            if (dataTable.getNumberOfRows() == 5) {
+              chartHeight = 270;
+            }
+
             container.style.height = chartHeight + "px";
             chart.draw(dataTable, options);
           }
+
+          Array.from(chartGroup.children).forEach(child => {
+            if (child.id !== 'heading-container') {
+                child.style.display = "none";
+            }
+        });
+
         });
       }
     }
@@ -747,13 +838,13 @@ function App() {
     <div className="flex flex-col space-y-3">
       <div className="bg-[#01478c] p-2 w-full flex flex-row items-center justify-between space-x-4">
         <div className="flex flex-row space-x-2 items-center">
-        <img src={LockheedMartinLogo} className="h-[50px] w-[50px]" />
-        <h5 className="text-2xl text-white">Site Integration Model</h5>
+          <img src={LockheedMartinLogo} className="h-[50px] w-[50px]" />
+          <h5 className="text-2xl text-white">Site Integration Model</h5>
         </div>
-        
+
         <div className="flex flex-col items-end space-x-2 text-white">
           <div className="flex flex-row space-x-2 items-center">
-          <Typography variant="body">Made by DASCE team -</Typography>
+            <Typography variant="body">Made by DASCE team -</Typography>
             <a
               href="https://docs.us.lmco.com/display/DASCE/DASCE+Home"
               target="_blank"
@@ -762,22 +853,17 @@ function App() {
               Our Confluence
             </a>
           </div>
-            
-            <Typography variant="body2" style={{ fontWeight: "" }}>
+
+          <Typography variant="body2" style={{ fontWeight: "" }}>
             Digitally Accelerated Solutions through Citizen Engagement
           </Typography>
-          </div>
-
-          
+        </div>
       </div>
       <Container className="space-y-2 py-10">
-        
         <div className="flex flex-col items-start">
           <Typography variant="h2" gutterBottom>
             Site Integration Model
           </Typography>
-
-          
         </div>
 
         {/* <Typography variant="h3" style={{ fontWeight: "bold", fontFamily: "Inter Tight"  }} gutterBottom>
@@ -810,7 +896,11 @@ function App() {
 
         <Typography
           variant="h3"
-          style={{ fontWeight: "bold", fontFamily: "Inter Tight" }}
+          style={{
+            fontWeight: "bold",
+            fontFamily: "Inter Tight",
+            marginTop: "100px",
+          }}
           gutterBottom
         >
           Editable Data Table

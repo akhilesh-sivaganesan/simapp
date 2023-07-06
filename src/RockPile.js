@@ -9,16 +9,17 @@ const RockPile = ({ data, isStacked, series }) => {
     },
     hAxis: { title: "Year" },
     chartArea: { height: "80%", left: "10%", width: "77%" },
-    //width: 1170,
+    width: 1170,
     isStacked: isStacked,
     lineWidth: 2,
+    pointSize: 4,
     pointsVisible: "true",
     series,
     legend: 'none',
   };
 
   return (
-    <div className="border shadow-lg rounded-md">
+    <div className="border shadow-lg rounded-md overflow-hidden">
       <Chart
         chartType="AreaChart"
         height="500px"
