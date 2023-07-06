@@ -8,6 +8,7 @@ const RockPile = ({ data, isStacked, series }) => {
       fontName: 'Inter Tight',
     },
     hAxis: { title: "Year" },
+    vAxis: { title: "Total Capital Expenditure ($)"},
     chartArea: { height: "80%", left: "10%", width: "80%", right: "9%", },
     width: 1100,
     isStacked: isStacked,
