@@ -262,12 +262,17 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
 
   const handleSaveRowEdits = async ({ exitEditingMode, row, values }) => {
     if (!Object.keys(validationErrors).length) {
+      console.log(row)
+      console.log(values)
       newData[row.index] = values;
       //send/receive api updates here, then refetch or update local table data for re-render
       setNewData([...newData]);
       setData([...newData]);
       setFilteredData([...newData]);
+      console.log("replace done")
       exitEditingMode(); //required to exit editing mode and close modal
+    } else {
+      console.log(Object.keys(validationErrors))
     }
   };
 
@@ -306,8 +311,8 @@ export default function EditableDatatable({ data, setData, setFilteredData }) {
       enableColumnResizing
       enableColumnOrdering
       enableRowSelection
-      // enableRowActions
-      //editingMode="modal" //default
+      enableEditing={true}
+      editingMode="modal" //default
       enableFacetedValues
       initialState={{
         density: "compact",

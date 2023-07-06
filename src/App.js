@@ -334,13 +334,14 @@ function App() {
         // Create an array of color codes for each row
         const rowColors = rows.map((row) => {
           // Get the base color for the current Program
-          const baseColor = colors[row.Program];
 
-          // Get the adjustment amount for the current TypeOfWork
-          const adjustment = adjustments[row.TypeOfWork];
-          // Adjust the base color to create a new color
-          const color = adjustColor(baseColor, adjustment);
-          return color;
+          const baseColor = colors[row.Program];
+          if (baseColor) {
+            const adjustment = adjustments[row.TypeOfWork];
+            // Adjust the base color to create a new color
+            const color = adjustColor(baseColor, adjustment);
+            return color;
+          }
         });
 
         return {
@@ -787,7 +788,7 @@ function App() {
               //containerId === "Bay 25"
               //? ["#8dc0ff", "#3366cc", "#6fa2ff", "#dc3912", "#3366cc"]
             };
-            console.log(convertedData[i]);
+            //console.log(convertedData[i]);
             //console.log(options.colors + " Row " + i);
 
             // Set the height of the chart to fit its content
